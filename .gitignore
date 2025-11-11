@@ -1,0 +1,16 @@
+# Ignore private SSH key files (do NOT commit private keys)
+keyFromGithubJoubertNansen
+keyFromGithubJoubertNansen.pub
+
+# Terraform and local state
+.terraform/
+*.tfstate
+*.tfstate.backup
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# OS files
+Thumbs.db
+*.swp
