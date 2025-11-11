@@ -1,12 +1,18 @@
 
-# Autenticação
+
+# --- Autenticação / Configuração do provider OCI ---
+# region: região OCI onde os recursos serão criados (ex.: sa-saopaulo-1)
 region           = "sa-saopaulo-1"
+# tenancy_ocid, user_ocid e fingerprint são OCIDs/fingerprints fornecidos pela OCI
 tenancy_ocid     = "ocid1.tenancy.oc1..prodTenancyID"
 user_ocid        = "ocid1.user.oc1..prodUserID"
 fingerprint      = "aa:bb:cc:dd:ee:ff:gg:hh:ii:jj:kk:ll:mm:nn:oo:pp"
+# private_key_path: caminho para a chave privada local usada para autenticar
 private_key_path = "~/.oci/prod_api_key.pem"
 
-# Compartimentos
+
+# --- Compartimentos (compartments) ---
+# Definem as divisões lógicas (ex.: prod, shared-network-prod, projetos)
 compartments = {
   "prod" = {
     description = "Compartimento de produção"
@@ -22,14 +28,17 @@ compartments = {
   }
 }
 
-# Rede
+
+# --- Rede (VCN e subnets) ---
+# vcn_cidr: CIDR principal da VCN
 vcn_cidr = "10.1.0.0/16"
 subnet_cidrs = {
   public  = "10.1.1.0/24"
   private = "10.1.2.0/24"
 }
 
-# Políticas IAM
+
+# --- Políticas IAM (exemplos) ---
 project_policies = {
   "projeto-a-prod" = {
     compartment_id = "ocid1.compartment.oc1..projetoAProdID"
@@ -40,7 +49,8 @@ project_policies = {
   }
 }
 
-# Instâncias
+
+# --- Instâncias (exemplo para projeto A) ---
 project_instances = {
   "projeto-a-prod" = {
     availability_domain = "SA-SAOPAULO-1-AD-1"
@@ -51,7 +61,8 @@ project_instances = {
   }
 }
 
-# Buckets
+
+# --- Buckets (Object Storage) por projeto ---
 project_buckets = {
   "projeto-a-prod" = {
     compartment_id = "ocid1.compartment.oc1..projetoAProdID"
@@ -59,7 +70,8 @@ project_buckets = {
   }
 }
 
-# Bancos de Dados
+
+# --- Bancos de Dados (exemplo) ---
 project_databases = {
   "projeto-a-prod" = {
     availability_domain = "SA-SAOPAULO-1-AD-1"

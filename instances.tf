@@ -1,4 +1,12 @@
 
+/*
+Recurso: Instância (VM) por projeto
+ - Usa `for_each` para criar instâncias conforme var.project_instances.
+ - `create_vnic_details` define a interface de rede e a subnet onde a VM ficará.
+ - `source_details` define a imagem usada como base para a instância.
+ - `display_name` é um nome legível para a instância.
+ - Ajuste `shape` e `image_id` conforme necessidade do workload.
+*/
 resource "oci_core_instance" "project_instance" {
   for_each = var.project_instances
 
