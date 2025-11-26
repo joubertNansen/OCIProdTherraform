@@ -26,6 +26,8 @@ resource "oci_identity_compartment" "root_level" {
 
 # Cria compartimentos filhos (aninhados) que dependem de compartimentos raiz criados neste plano
 # Usa uma referência ao recurso criado acima como parent
+# TEMPORARIAMENTE COMENTADO - Requer permissões de administrador de identidade
+/*
 resource "oci_identity_compartment" "child_level" {
   for_each = {
     for name, config in var.compartments :
@@ -48,6 +50,7 @@ resource "oci_identity_compartment" "child_level" {
 
   depends_on = [oci_identity_compartment.root_level]
 }
+*/
 
 # ====================================================================
 # OUTPUTS: Expõe os IDs dos compartimentos criados para uso em outros recursos
@@ -55,16 +58,10 @@ resource "oci_identity_compartment" "child_level" {
 
 output "compartment_ids" {
   description = "Mapa de nomes de compartimentos para seus OCIDs"
-  value = merge(
-    {
-      for name, comp in oci_identity_compartment.root_level :
-      name => comp.id
-    },
-    {
-      for name, comp in oci_identity_compartment.child_level :
-      name => comp.id
-    }
-  )
+  value = {
+    for name, comp in oci_identity_compartment.root_level :
+    name => comp.id
+  }
 }
 
 output "root_compartments" {

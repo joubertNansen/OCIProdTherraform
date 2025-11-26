@@ -7,7 +7,7 @@
 data "oci_core_services" "all_services" {}
 
 resource "oci_core_virtual_network" "vcn_shared" {
-  compartment_id = oci_identity_compartment.child_level["shared-network-prod"].id
+  compartment_id = oci_identity_compartment.root_level["prod"].id
   display_name   = "SHARED-VCN-PROD"
   cidr_block     = var.vcn_cidr
 
@@ -17,20 +17,20 @@ resource "oci_core_virtual_network" "vcn_shared" {
 }
 
 resource "oci_core_internet_gateway" "igw" {
-  compartment_id = oci_identity_compartment.child_level["shared-network-prod"].id
+  compartment_id = oci_identity_compartment.root_level["prod"].id
   vcn_id         = oci_core_virtual_network.vcn_shared.id
   display_name   = "IGW-SHARED-PROD"
   enabled        = true
 }
 
 resource "oci_core_nat_gateway" "nat" {
-  compartment_id = oci_identity_compartment.child_level["shared-network-prod"].id
+  compartment_id = oci_identity_compartment.root_level["prod"].id
   vcn_id         = oci_core_virtual_network.vcn_shared.id
   display_name   = "NAT-SHARED-PROD"
 }
 
 resource "oci_core_service_gateway" "sgw" {
-  compartment_id = oci_identity_compartment.child_level["shared-network-prod"].id
+  compartment_id = oci_identity_compartment.root_level["prod"].id
   vcn_id         = oci_core_virtual_network.vcn_shared.id
   display_name   = "SGW-SHARED-PROD"
   services {
@@ -39,7 +39,7 @@ resource "oci_core_service_gateway" "sgw" {
 }
 
 resource "oci_core_route_table" "rt_public" {
-  compartment_id = oci_identity_compartment.child_level["shared-network-prod"].id
+  compartment_id = oci_identity_compartment.root_level["prod"].id
   vcn_id         = oci_core_virtual_network.vcn_shared.id
   display_name   = "RT-PUBLIC-SHARED-PROD"
 
@@ -51,7 +51,7 @@ resource "oci_core_route_table" "rt_public" {
 }
 
 resource "oci_core_route_table" "rt_private" {
-  compartment_id = oci_identity_compartment.child_level["shared-network-prod"].id
+  compartment_id = oci_identity_compartment.root_level["prod"].id
   vcn_id         = oci_core_virtual_network.vcn_shared.id
   display_name   = "RT-PRIVATE-SHARED-PROD"
 
@@ -61,15 +61,16 @@ resource "oci_core_route_table" "rt_private" {
     network_entity_id = oci_core_nat_gateway.nat.id
   }
 
-  route_rules {
-    destination      = "all-services-in-oracle-services-network"
-    destination_type = "SERVICE_CIDR_BLOCK"
-    network_entity_id = oci_core_service_gateway.sgw.id
-  }
+  # Rota para Service Gateway (comentada - usar CIDR específico se necessário)
+  # route_rules {
+  #   destination      = "all-services-in-oracle-services-network"
+  #   destination_type = "SERVICE_CIDR_BLOCK"
+  #   network_entity_id = oci_core_service_gateway.sgw.id
+  # }
 }
 
 resource "oci_core_subnet" "public_shared" {
-  compartment_id               = oci_identity_compartment.child_level["shared-network-prod"].id
+  compartment_id               = oci_identity_compartment.root_level["prod"].id
   vcn_id                       = oci_core_virtual_network.vcn_shared.id
   display_name                 = "subnet-pub-shared"
   cidr_block                   = var.subnet_cidrs["public"]
@@ -82,7 +83,7 @@ resource "oci_core_subnet" "public_shared" {
 }
 
 resource "oci_core_subnet" "private_shared" {
-  compartment_id               = oci_identity_compartment.child_level["shared-network-prod"].id
+  compartment_id               = oci_identity_compartment.root_level["prod"].id
   vcn_id                       = oci_core_virtual_network.vcn_shared.id
   display_name                 = "subnet-priv-shared"
   cidr_block                   = var.subnet_cidrs["private"]
@@ -95,6 +96,8 @@ resource "oci_core_subnet" "private_shared" {
 }
 
 # --- Subnets dedicadas por projeto (opcionais) ---
+# TEMPORARIAMENTE COMENTADO - Requer compartimentos filhos criados
+/*
 resource "oci_core_subnet" "project_subnet" {
   for_each = var.project_subnets
 
@@ -109,6 +112,7 @@ resource "oci_core_subnet" "project_subnet" {
     create_before_destroy = true
   }
 }
+*/
 
 output "vcn_shared_id" {
   value = oci_core_virtual_network.vcn_shared.id
@@ -122,8 +126,8 @@ output "priv_subnet_shared_id" {
   value = oci_core_subnet.private_shared.id
 }
 
-output "project_subnet_ids" {
-  value = {
-    for name, s in oci_core_subnet.project_subnet : name => s.id
-  }
-}
+# output "project_subnet_ids" {
+#   value = {
+#     for name, s in oci_core_subnet.project_subnet : name => s.id
+#   }
+# }
