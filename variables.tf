@@ -35,8 +35,8 @@ variable "compartments" {
 # CIDR (Classless Inter-Domain Routing) da Rede Virtual (VCN)
 # Define a faixa de endereços IP disponíveis (10.0.0.0/16 = 65.536 IPs)
 variable "vcn_cidr" {
- type = string, 
- default = "10.0.0.0/16"
+  type    = string
+  default = "10.0.0.0/16"
 }
 
 # Sub-redes (subnets): Divisões da VCN em faixas IP menores
