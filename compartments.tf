@@ -33,17 +33,11 @@ resource "oci_identity_compartment" "child_level" {
     if config.parent_ocid != var.tenancy_ocid && can(regex("compartment", config.parent_ocid))
   }
 
-  # Extrai o nome do compartimento pai do parent_ocid (formato: "ocid1.compartment.oc1..XXXXX")
-  # Assume que há um compartimento raiz com um nome mapeado
-  compartment_id = try(
-    oci_identity_compartment.root_level[
-      [for root_name, root_config in var.compartments :
-        root_name if root_config.parent_ocid == var.tenancy_ocid &&
-                     config.parent_ocid == oci_identity_compartment.root_level[root_name].id
-      ][0]
-    ].id,
-    config.parent_ocid
-  )
+  # Usa diretamente o OCID informado em var.compartments[<name>].parent_ocid
+  # Se o parent_ocid referencia um compartimento existente (OCID), o novo
+  # compartimento será criado como filho desse OCID. Se o parent_ocid for
+  # a tenancy OCID, teria sido filtrado no root_level acima.
+  compartment_id = each.value.parent_ocid
 
   name        = upper(replace(each.key, "-", "_"))
   description = each.value.description
