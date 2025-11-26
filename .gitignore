@@ -6,6 +6,16 @@ keyFromGithubJoubertNansen.pub
 .terraform/
 *.tfstate
 *.tfstate.backup
+.terraform.lock.hcl
+
+# Terraform variables and secrets
+terraform_nonprod.tfvars
+terraform_prod.tfvars
+terraform.tfvars
+*.tfvars
+*.key
+*.pem
+*.pub
 
 # Python cache
 __pycache__/
@@ -14,6 +24,17 @@ __pycache__/
 # OS files
 Thumbs.db
 *.swp
+.DS_Store
 
 # Ignore nested repo directory to avoid add errors
-OCIProdTherraform/
+OCIProdTerraform/
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# Logs and outputs
+*.log
+*.out
+

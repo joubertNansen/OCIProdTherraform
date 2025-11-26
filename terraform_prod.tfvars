@@ -8,11 +8,11 @@
 # ---- CREDENCIAIS E AUTENTICAÇÃO OCI ----
 # --- Autenticação / Configuração do provider OCI ---
 
-region           = "sa-saopaulo-1" # region: região OCI onde os recursos serão criados (ex.: sa-saopaulo-1)
-tenancy_ocid     = "ocid1.tenancy.oc1..prodTenancyID" # Identificador único do inquilino (conta) na Oracle Cloud # Este é o ID de sua conta OCI no formato: ocid1.tenancy.oc1..XXXXX
-user_ocid        = "ocid1.user.oc1..prodUserID" # Identificador do usuário OCI que tem permissão para criar recursos
-fingerprint      = "aa:bb:cc:dd:ee:ff:gg:hh:ii:jj:kk:ll:mm:nn:oo:pp" # Impressão digital (fingerprint) da chave pública usada na autenticação API # Formato: XX:XX:XX:XX:XX:XX:... (hexadecimal em pares)
-private_key_path = "~/.oci/prod_api_key.pem" # Caminho para o arquivo da chave privada que autentica as requisições # Formato PEM, gerado via `openssl` ou OCI Console
+region           = "sa-saopaulo-1"
+tenancy_ocid     = "ocid1.tenancy.oc1..aaaaaaaaehlqeml7m3rbt7f66fknd6z4dqyijnrslo7j7luvaacdf22vf7rq"
+user_ocid        = "ocid1.user.oc1..aaaaaaaatid5j2c4adsj3ifwyemhduip5ecz7onvo4egqo2gqhwq2o3jpeqa"
+fingerprint      = "bb:66:46:a2:e6:db:c4:26:d8:80:13:dc:12:4c:61:cf"
+private_key_path = "C:\\Users\\nsn102225\\.oci\\oci_api_key"
 
 
 # ---- COMPARTIMENTOS ----
