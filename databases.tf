@@ -13,6 +13,7 @@ Recurso: DB System (banco de dados gerenciado) por projeto
  - Atenção: admin_password é sensível; preferir passar via mecanismo seguro
    (secrets manager) em ambientes reais.
 */
+/*
 resource "oci_database_db_system" "project_db" {
   for_each = var.project_databases # for_each: Cria um banco de dados para cada projeto definido em var.project_databases 
   availability_domain = each.value.availability_domain # availability_domain: Zona de disponibilidade onde o BD será criado  # Usar zonas diferentes garante que os bancos não falhem simultaneamente
@@ -31,3 +32,4 @@ resource "oci_database_db_system" "project_db" {
     }
   }
 }
+*/

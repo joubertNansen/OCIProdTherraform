@@ -14,6 +14,7 @@ Recurso: Instância (VM) por projeto
  - `display_name` é um nome legível para a instância.
  - Ajuste `shape` e `image_id` conforme necessidade do workload.
 */
+/*
 resource "oci_core_instance" "project_instance" {
   for_each = var.project_instances # for_each: Cria uma VM para cada projeto definido em var.project_instances
   availability_domain = each.value.availability_domain # availability_domain: Zona de disponibilidade (data center) onde a VM será criada   # Usar diferentes zonas garante redundância e alta disponibilidade
@@ -37,3 +38,4 @@ resource "oci_core_instance" "project_instance" {
  
   display_name = "instance-${each.key}"  # display_name: Nome amigável exibido no console do OCI
 }
+*/
