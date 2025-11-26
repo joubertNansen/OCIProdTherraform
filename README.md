@@ -190,10 +190,6 @@ oci --version- Posso rodar isso localmente? Sim, se tiver acesso e permissões n
 
 ### 3. **Credenciais OCI**
 
-Você precisa de uma chave privada API para autenticar com OCI:Se quiser, eu posso gerar um script de CI (GitHub Actions) que automatize o
-
-plan/apply em um fluxo seguro com secrets — quer que eu faça isso?
-
 ```bash
 # Gerar chave privada (se ainda não tiver)
 # Via OCI Console → User Profile → API Keys → Add API Key
