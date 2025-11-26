@@ -41,6 +41,7 @@ compartments = {
 
 # Faixa de endereços IP da Rede Virtual Cloud (VCN) principal
 # 10.2.0.0/16 oferece 65.536 endereços IP disponíveis
+
 # --- Rede (VCN e subnets) ---
   # vcn_cidr: CIDR principal da VCN
 vcn_cidr = "10.1.0.0/16"
