@@ -140,3 +140,17 @@ project_databases = {
     admin_password      = "ProdPassword123!"
   }
 }
+
+# ---- SUBNETS DEDICADAS POR PROJETO (EXEMPLO) ----
+project_subnets = {
+  "projeto-a-prod" = {
+    cidr_block  = "10.1.10.0/24"
+    public      = true
+    compartment = "projeto-a-prod"
+  }
+  "projeto-b-prod" = {
+    cidr_block  = "10.1.11.0/24"
+    public      = false
+    compartment = "projeto-b-prod"
+  }
+}

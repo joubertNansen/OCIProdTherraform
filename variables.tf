@@ -52,6 +52,17 @@ variable "subnet_cidrs" {
   }
 }
 
+# ---- SUBNETS DEDICADAS POR PROJETO ----
+# Permite declarar subnets dedicadas para projetos específicos quando necessário
+variable "project_subnets" {
+  type = map(object({
+    cidr_block  = string,
+    public      = bool,
+    compartment = string
+  }))
+  default = {}
+}
+
 # ---- VARIÁVEIS DE CONTROLE DE ACESSO (IAM) ----
 
 /* Políticas IAM por projeto */

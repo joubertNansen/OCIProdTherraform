@@ -94,6 +94,22 @@ resource "oci_core_subnet" "private_shared" {
   }
 }
 
+# --- Subnets dedicadas por projeto (opcionais) ---
+resource "oci_core_subnet" "project_subnet" {
+  for_each = var.project_subnets
+
+  compartment_id = oci_identity_compartment.child_level[each.value.compartment].id
+  vcn_id         = oci_core_virtual_network.vcn_shared.id
+  display_name   = "subnet-${each.key}"
+  cidr_block     = each.value.cidr_block
+  prohibit_public_ip_on_vnic = !each.value.public
+  route_table_id = each.value.public ? oci_core_route_table.rt_public.id : oci_core_route_table.rt_private.id
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
 output "vcn_shared_id" {
   value = oci_core_virtual_network.vcn_shared.id
 }
@@ -104,4 +120,10 @@ output "pub_subnet_shared_id" {
 
 output "priv_subnet_shared_id" {
   value = oci_core_subnet.private_shared.id
+}
+
+output "project_subnet_ids" {
+  value = {
+    for name, s in oci_core_subnet.project_subnet : name => s.id
+  }
 }
