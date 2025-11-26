@@ -9,9 +9,8 @@ terraform {
 }
 
 provider "oci" {
-  tenancy_ocid     = var.tenancy_ocid
-  user_ocid        = var.user_ocid
-  fingerprint      = var.fingerprint
-  private_key_path = var.private_key_path
-  region           = var.region
+  # Use OCI CLI config file for authentication
+  # This requires ~/.oci/config to be properly configured
+  config_file_path = "~/.oci/config"
+  profile          = "DEFAULT"
 }
