@@ -31,24 +31,7 @@ provider "oci" {
 # Agrupa toda a configuração de recursos (redes, máquinas, bancos de dados, etc.)
 # Usar módulos facilita a reutilização e manutenção do código
 /*
-Módulo "infra":
- - O módulo aponta para a raiz do projeto (source = "./"), ou seja, os
-   recursos declarados nos arquivos (buckets.tf, instances.tf, etc.) são
-   aplicados como parte deste módulo.
- - Os parâmetros (compartments, project_instances, project_buckets, etc.) são
-   repassados a partir das variáveis de entrada, permitindo criar recursos
-   por projeto de forma parametrizada.
+Módulo "infra" removido: evitar referência recursiva ao diretório raiz.
+Os recursos existentes na raiz (vcn.tf, buckets.tf, instances.tf, etc.)
+serão aplicados diretamente sem encapsular a raiz como um módulo.
 */
-module "infra" {
-      # source: Aponta para a pasta atual (./), onde estão os arquivos de recursos
-  source = "./"
-      # Passa todas as variáveis para o módulo processar e criar os recursos
-  tenancy_ocid      = var.tenancy_ocid
-  compartments      = var.compartments
-  vcn_cidr          = var.vcn_cidr
-  subnet_cidrs      = var.subnet_cidrs
-  project_policies  = var.project_policies
-  project_instances = var.project_instances
-  project_buckets   = var.project_buckets
-  project_databases = var.project_databases
-}
