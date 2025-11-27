@@ -1,2 +1,2 @@
-output "vcn_id" { value = oci_core_virtual_network.vcn.id }
-output "igw_id" { value = oci_core_internet_gateway.igw.id }
+// outputs removed: network module now delegates to submodules (vcn/igw)
+// re-exports are provided by `main.tf` in this module.
