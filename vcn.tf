@@ -61,12 +61,17 @@ resource "oci_core_route_table" "rt_private" {
     network_entity_id = oci_core_nat_gateway.nat.id
   }
 
-  # Rota para Service Gateway (comentada - usar CIDR específico se necessário)
-  # route_rules {
-  #   destination      = "all-services-in-oracle-services-network"
-  #   destination_type = "SERVICE_CIDR_BLOCK"
-  #   network_entity_id = oci_core_service_gateway.sgw.id
-  # }
+  # Rota opcional para Service Gateway
+  # Ativada apenas quando `var.enable_service_gateway_routes` for true e
+  # `var.service_gateway_destination` estiver preenchido (evita destination inválido)
+  dynamic "route_rules" {
+    for_each = var.enable_service_gateway_routes && length(trim(var.service_gateway_destination)) > 0 ? [1] : []
+    content {
+      destination      = var.service_gateway_destination
+      destination_type = var.service_gateway_destination_type
+      network_entity_id = oci_core_service_gateway.sgw.id
+    }
+  }
 }
 
 resource "oci_core_subnet" "public_shared" {
@@ -96,10 +101,9 @@ resource "oci_core_subnet" "private_shared" {
 }
 
 # --- Subnets dedicadas por projeto (opcionais) ---
-# TEMPORARIAMENTE COMENTADO - Requer compartimentos filhos criados
-/*
+// Subnets dedicadas por projeto (opcionais) - criadas somente se `var.enable_project_subnets` for true
 resource "oci_core_subnet" "project_subnet" {
-  for_each = var.project_subnets
+  for_each = var.enable_project_subnets ? var.project_subnets : {}
 
   compartment_id = oci_identity_compartment.child_level[each.value.compartment].id
   vcn_id         = oci_core_virtual_network.vcn_shared.id
@@ -112,7 +116,6 @@ resource "oci_core_subnet" "project_subnet" {
     create_before_destroy = true
   }
 }
-*/
 
 output "vcn_shared_id" {
   value = oci_core_virtual_network.vcn_shared.id
@@ -126,8 +129,9 @@ output "priv_subnet_shared_id" {
   value = oci_core_subnet.private_shared.id
 }
 
-# output "project_subnet_ids" {
-#   value = {
-#     for name, s in oci_core_subnet.project_subnet : name => s.id
-#   }
-# }
+output "project_subnet_ids" {
+  description = "IDs das subnets por projeto (se `enable_project_subnets` estiver ativo)"
+  value = var.enable_project_subnets ? {
+    for name, s in oci_core_subnet.project_subnet : name => s.id
+  } : {}
+}

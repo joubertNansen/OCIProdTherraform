@@ -127,3 +127,35 @@ variable "project_databases" {
   default = {}
 }
 
+# ---- FLAGS DE FUNCIONALIDADE PARA CRIAÇÕES OPCIONAIS ----
+/*
+  Essas flags permitem ativar blocos opcionais que em alguns ambientes
+  exigem permissões ou valores adicionais. Padrão = false (desativado).
+*/
+variable "enable_child_compartments" {
+  type    = bool
+  default = false
+}
+
+variable "enable_project_subnets" {
+  type    = bool
+  default = false
+}
+
+variable "enable_service_gateway_routes" {
+  type    = bool
+  default = false
+}
+
+variable "service_gateway_destination" {
+  description = "Destino usado na rota do Service Gateway (ex: service cidr ou string válida). Se vazio, não será criada a rota."
+  type        = string
+  default     = ""
+}
+
+variable "service_gateway_destination_type" {
+  description = "Tipo do destino para a rota do Service Gateway (ex: SERVICE_CIDR_BLOCK ou CIDR_BLOCK)."
+  type        = string
+  default     = "SERVICE_CIDR_BLOCK"
+}
+
