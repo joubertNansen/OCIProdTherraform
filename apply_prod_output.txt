@@ -1,0 +1,37 @@
+[0m[1moci_identity_compartment.root_level["prod"]: Creating...[0m[0m
+[0m[1moci_identity_compartment.root_level["prod"]: Creation complete after 1s [id=ocid1.compartment.oc1..aaaaaaaa5i7sfaqrneykgkfbxkjaxkqgq7cdu6anpfzedk7f4g6l2vrwgl5a][0m
+[0m[1moci_core_virtual_network.vcn_shared: Creating...[0m[0m
+[0m[1moci_core_virtual_network.vcn_shared: Creation complete after 1s [id=ocid1.vcn.oc1.sa-saopaulo-1.amaaaaaaezgfvpaabvstruavj27d3t7bhsvs62gqi7amgdfw3d5dffdrcgja][0m
+[0m[1moci_core_nat_gateway.nat: Creating...[0m[0m
+[0m[1moci_core_internet_gateway.igw: Creating...[0m[0m
+[0m[1moci_core_service_gateway.sgw: Creating...[0m[0m
+[0m[1moci_core_internet_gateway.igw: Creation complete after 0s [id=ocid1.internetgateway.oc1.sa-saopaulo-1.aaaaaaaap4vujxbaqomp35jy3xumnnyml2jz4plx7yd7lstdin375a5l3hnq][0m
+[0m[1moci_core_route_table.rt_public: Creating...[0m[0m
+[0m[1moci_core_route_table.rt_public: Creation complete after 1s [id=ocid1.routetable.oc1.sa-saopaulo-1.aaaaaaaahfkvwew6tjajmannjw32ohvrbclsmx7gpfbgynyinobidyztdqdq][0m
+[0m[1moci_core_subnet.public_shared: Creating...[0m[0m
+[0m[1moci_core_nat_gateway.nat: Creation complete after 1s [id=ocid1.natgateway.oc1.sa-saopaulo-1.aaaaaaaazywnvhkfvuebs3lireewrzdnxf62fmt3quwcbxxv3r2czr5odwwq][0m
+[0m[1moci_core_subnet.public_shared: Creation complete after 2s [id=ocid1.subnet.oc1.sa-saopaulo-1.aaaaaaaazvn3qzsindn3qpdom5p63dpbxnryjjfbbyvp4cvmat4agtv6pm5q][0m
+[0m[1moci_core_service_gateway.sgw: Creation complete after 5s [id=ocid1.servicegateway.oc1.sa-saopaulo-1.aaaaaaaapqgrnixahgirxcfnksvuv4otn5hccghviukp74kn72kcomnqng2q][0m
+[0m[1moci_core_route_table.rt_private: Creating...[0m[0m
+[0m[1moci_core_route_table.rt_private: Creation complete after 0s [id=ocid1.routetable.oc1.sa-saopaulo-1.aaaaaaaaga4fpja3y3mihmkhqk7crj7uz6zastcx4tjdzsuralm66rrkklmq][0m
+[0m[1moci_core_subnet.private_shared: Creating...[0m[0m
+[0m[1moci_core_subnet.private_shared: Creation complete after 3s [id=ocid1.subnet.oc1.sa-saopaulo-1.aaaaaaaa2cl2lkevjubmwxe66boylgz6ayauy5fj7xncx7ketaop2mystwka][0m
+[0m[1m[32m
+Apply complete! Resources: 9 added, 0 changed, 0 destroyed.[0m
+[0m[1m[32m
+Outputs:
+
+[0mcompartment_ids = {
+  "prod" = "ocid1.compartment.oc1..aaaaaaaa5i7sfaqrneykgkfbxkjaxkqgq7cdu6anpfzedk7f4g6l2vrwgl5a"
+}
+priv_subnet_shared_id = "ocid1.subnet.oc1.sa-saopaulo-1.aaaaaaaa2cl2lkevjubmwxe66boylgz6ayauy5fj7xncx7ketaop2mystwka"
+project_subnet_ids = {}
+pub_subnet_shared_id = "ocid1.subnet.oc1.sa-saopaulo-1.aaaaaaaazvn3qzsindn3qpdom5p63dpbxnryjjfbbyvp4cvmat4agtv6pm5q"
+root_compartments = {
+  "prod" = {
+    "id" = "ocid1.compartment.oc1..aaaaaaaa5i7sfaqrneykgkfbxkjaxkqgq7cdu6anpfzedk7f4g6l2vrwgl5a"
+    "name" = "PROD"
+    "parent_ocid" = "ocid1.tenancy.oc1..aaaaaaaaehlqeml7m3rbt7f66fknd6z4dqyijnrslo7j7luvaacdf22vf7rq"
+  }
+}
+vcn_shared_id = "ocid1.vcn.oc1.sa-saopaulo-1.amaaaaaaezgfvpaabvstruavj27d3t7bhsvs62gqi7amgdfw3d5dffdrcgja"
