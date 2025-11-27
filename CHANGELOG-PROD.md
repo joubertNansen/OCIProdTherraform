@@ -1,3 +1,26 @@
+## [2025-11-26] - Terraform Apply Bem-Sucedido ✅ — PROD Infraestrutura Implantada
+
+### ✅ 9 Recursos Criados em Produção
+
+| Recurso | OCID | Status |
+|---------|------|--------|
+| Compartimento PROD | ocid1.compartment.oc1..aaaaaaaa5i7sfaqrneykgkfbxkjaxkqgq7cdu6anpfzedk7f4g6l2vrwgl5a | ✅ |
+| VCN SHARED-VCN-PROD (10.1.0.0/16) | ocid1.vcn.oc1.sa-saopaulo-1.amaaaaaaezgfvpaabvstruavj27d3t7bhsvs62gqi7amgdfw3d5dffdrcgja | ✅ |
+| IGW-SHARED-PROD | ocid1.internetgateway.oc1.sa-saopaulo-1.aaaaaaaap4vujxbaqomp35jy3xumnnyml2jz4plx7yd7lstdin375a5l3hnq | ✅ |
+| NAT-SHARED-PROD | ocid1.natgateway.oc1.sa-saopaulo-1.aaaaaaaazywnvhkfvuebs3lireewrzdnxf62fmt3quwcbxxv3r2czr5odwwq | ✅ |
+| SGW-SHARED-PROD | ocid1.servicegateway.oc1.sa-saopaulo-1.aaaaaaaapqgrnixahgirxcfnksvuv4otn5hccghviukp74kn72kcomnqng2q | ✅ |
+| RT-PUBLIC-SHARED-PROD | ocid1.routetable.oc1.sa-saopaulo-1.aaaaaaaahfkvwew6tjajmannjw32ohvrbclsmx7gpfbgynyinobidyztdqdq | ✅ |
+| RT-PRIVATE-SHARED-PROD | ocid1.routetable.oc1.sa-saopaulo-1.aaaaaaaaga4fpja3y3mihmkhqk7crj7uz6zastcx4tjdzsuralm66rrkklmq | ✅ |
+| subnet-pub-shared (10.1.1.0/24) | ocid1.subnet.oc1.sa-saopaulo-1.aaaaaaaazvn3qzsindn3qpdom5p63dpbxnryjjfbbyvp4cvmat4agtv6pm5q | ✅ |
+| subnet-priv-shared (10.1.2.0/24) | ocid1.subnet.oc1.sa-saopaulo-1.aaaaaaaa2cl2lkevjubmwxe66boylgz6ayauy5fj7xncx7ketaop2mystwka | ✅ |
+
+### 📊 Resumo
+- **Tempo de Apply**: ~20 segundos
+- **Status**: ✅ Apply bem-sucedido
+- **Commit**: 04acc14 (apply output)
+
+---
+
 ## [2025-11-26] - Terraform Plan Validado ✅
 
 ### 9 Recursos Prontos para Apply:
