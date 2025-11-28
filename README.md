@@ -630,5 +630,5 @@ Para dúvidas ou problemas:
 ---
 
 **Última atualização:** Novembro de 2025  
-**Autor:** Jobert Nansen  
+**Autor:** Joubert Nansen  
 **Status:** ✅ Pronto para uso
