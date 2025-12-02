@@ -148,3 +148,11 @@ variable "service_gateway_destination_type" {
   type        = string
   default     = "SERVICE_CIDR_BLOCK"
 }
+
+# Ambiente atual (usado para selecionar chaves em maps e nomes legíveis)
+# Exemplo: "prod" ou "nonprod". Permite compartilhar o mesmo código entre
+# ambientes sem index errors quando um mapa só contém a chave do ambiente alvo.
+variable "environment" {
+  type    = string
+  default = "prod"
+}
