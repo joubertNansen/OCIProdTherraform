@@ -1,40 +1,135 @@
-# Ignore private SSH key files (do NOT commit private keys)
-keyFromGithubJoubertNansen
-keyFromGithubJoubertNansen.pub
+# ====================================================================
+# ARQUIVO: .gitignore
+# DESCRIÇÃO: Especifica quais arquivos/pastas NÃO devem ser versionados
+#            no Git. Evita comitar dados sensíveis, arquivos temporários
+#            e artefatos de build.
+# ====================================================================
 
-# Terraform and local state
-.terraform/
+# ---- ARQUIVOS DE ESTADO TERRAFORM ----
+# Contêm informações sensíveis (senhas, chaves, OCIDs reais, etc)
+terraform.tfstate*
 *.tfstate
-*.tfstate.backup
-.terraform.lock.hcl
+*.tfstate.*
+terraform.tfstate.backup
 
-# Terraform variables and secrets
+# ---- ARQUIVOS DE LOCK E CACHE ----
+# Gerados automaticamente e desnecessários para versionamento
+.terraform/
+.terraform.lock.hcl
+crash.log
+crash.*.log
+
+# ---- ARQUIVOS TEMPORÁRIOS ----
+# Gerados durante execução do Terraform
+*.tfplan
+.DS_Store
+*.swp
+*.swo
+*~
+
+# ---- VARIÁVEIS SENSÍVEIS ----
+# Arquivos com valores secretos (senhas, chaves, OCIDs)
+# Nunca comitar informações reais!
+**/secrets.tfvars
+**/*.secret.tfvars
+**/nonprod_api_key.pem
+**/prod_api_key.pem
+*.key
+*.pem
 terraform_nonprod.tfvars
 terraform_prod.tfvars
 terraform.tfvars
 *.tfvars
-*.key
-*.pem
-*.pub
 
-# Python cache
-__pycache__/
-*.py[cod]
+# ---- ARQUIVOS DE OVERRIDE ----
+# Usados para overrides locais durante desenvolvimento
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
 
-# OS files
-Thumbs.db
-*.swp
-.DS_Store
+# ---- VARIÁVEIS DE AMBIENTE ----
+# Arquivos .env podem conter dados sensíveis
+.env
+.env.local
+.env.*.local
 
-# Ignore nested repo directory to avoid add errors
-OCIProdTerraform/
-
-# IDE
+# ---- IDE E EDITORES ----
+# Arquivos gerados por IDEs/editores
 .vscode/
 .idea/
 *.iml
+*.sublime-project
+*.sublime-workspace
+.vim/
+.project
+.settings/
+*.sublime-workspace
 
-# Logs and outputs
+# ---- LOGS ----
+# Logs de execução
 *.log
-*.out
+*.logs
 
+# ---- OUTPUTS TEMPORÁRIOS ----
+# Relatórios e outputs gerados localmente
+*.out
+output.txt
+graph.svg
+
+# ---- ARQUIVOS ESPECÍFICOS NÃO RASTREADOS ----
+# Adicionar outros arquivos específicos do seu ambiente:
+# terraform_nonprod.tfvars    # Descomentar se tiver dados sensíveis
+# .terraform.tfvars           # Valores locais de teste
+# local.tfvars                # Overrides locais
+
+# ---- DIRETÓRIOS DE COMPILAÇÃO ----
+dist/
+build/
+target/
+
+# ---- ARQUIVOS DO SISTEMA ----
+Thumbs.db
+.DS_Store
+.directory
+
+# ---- PYTHON ----
+# Se usar script cost_allocation.py
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# ---- ARQUIVOS BACKUP ----
+*.bak
+*.backup
+*.orig
+
+# ====================================================================
+# IMPORTANTE: EXCEÇÕES
+# ====================================================================
+# Se você realmente precisar comitar alguns desses arquivos,
+# use o padrão: !<arquivo> para excetuá-los
+
+# Exemplo: Permitir específica arquivo de variáveis de exemplo
+# !example.tfvars
+# !example_secrets.tfvars.sample

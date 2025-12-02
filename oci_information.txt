@@ -1,0 +1,11 @@
+OCID Tenancy: ocid1.tenancy.oc1..aaaaaaaaehlqeml7m3rbt7f66fknd6z4dqyijnrslo7j7luvaacdf22vf7rq
+OCID User: ocid1.user.oc1..aaaaaaaatid5j2c4adsj3ifwyemhduip5ecz7onvo4egqo2gqhwq2o3jpeqa
+Region: sa-saopaulo-1 
+
+
+[DEFAULT]
+user=ocid1.user.oc1..aaaaaaaatid5j2c4adsj3ifwyemhduip5ecz7onvo4egqo2gqhwq2o3jpeqa
+fingerprint=bb:66:46:a2:e6:db:c4:26:d8:80:13:dc:12:4c:61:cf
+tenancy=ocid1.tenancy.oc1..aaaaaaaaehlqeml7m3rbt7f66fknd6z4dqyijnrslo7j7luvaacdf22vf7rq
+region=sa-saopaulo-1
+key_file=<path to your private keyfile> # TODO

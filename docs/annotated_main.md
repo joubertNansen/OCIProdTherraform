@@ -1,3 +1,4 @@
+```terraform
 /*
 Arquivo: main.tf (anotado)
 Propósito: configura o provider OCI e instancia um módulo local que cria a infraestrutura.
@@ -10,13 +11,13 @@ provider "oci":
  - Configura o provedor da Oracle Cloud Infrastructure (OCI) com as credenciais
    e a região que estão sendo passadas via variáveis.
  - Os campos (tenancy_ocid, user_ocid, fingerprint, private_key_path, region)
-   devem ser definidos no arquivo de variáveis ou tfvars (ex.: terraform_prod.tfvars).
+   devem ser definidos no arquivo de variáveis ou tfvars (ex.: terraform_nonprod.tfvars).
 */
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid      # OCID da tenancy (conta) na OCI
   user_ocid        = var.user_ocid         # OCID do usuário que executa o Terraform
   fingerprint      = var.fingerprint       # Fingerprint da chave pública usada
-  private_key_path = var.private_key_path  # Caminho para a chave privada
+  private_key_path = var.private_key_path  # Caminho para a chave privada (ex.: ~/.oci/nonprod_api_key.pem)
   region           = var.region            # Região onde os recursos serão criados
 }
 
@@ -39,3 +40,4 @@ module "infra" {
   project_buckets   = var.project_buckets
   project_databases = var.project_databases
 }
+```

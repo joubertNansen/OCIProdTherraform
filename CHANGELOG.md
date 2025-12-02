@@ -1,33 +1,45 @@
+## [2025-11-26] - Terraform Apply Concluído com Sucesso ✅
+
+### ✅ 9 Recursos Criados:
+- Compartimento NONPROD
+- VCN SHARED-VCN-NONPROD (10.2.0.0/16)
+- IGW, NAT, SGW, 2x Route Tables, 2x Subnets
+
+**Outputs Disponíveis**: compartment_ids, vcn_shared_id, pub_subnet_shared_id, priv_subnet_shared_id
+**Status**: ✅ Infraestrutura de rede compartilhada operacional
+
+---
+
 # CHANGELOG.md
 
-## [2025-11-26] - Terraform Apply Bem-Sucedido - VCN PROD Implantada ✅
+## [2025-11-26] - Terraform Apply Bem-Sucedido - VCN NONPROD Implantada ✅
 
 ### 🎯 Objetivo
-Executar com sucesso `terraform apply` para implantar a infraestrutura de rede compartilhada (PROD) na Oracle Cloud, incluindo VCN, compartimentos, subnets e gateways.
+Executar com sucesso `terraform apply` para implantar a infraestrutura de rede compartilhada (NONPROD) na Oracle Cloud, incluindo VCN, compartimentos, subnets e gateways.
 
 ### ✨ Infraestrutura Implantada
 
-#### Compartimento PROD
+#### Compartimento NONPROD
 - **Status**: ✅ CRIADO
-- **OCID**: `ocid1.compartment.oc1..aaaaaaaa5i7sfaqrneykgkfbxkjaxkqgq7cdu6anpfzedk7f4g6l2vrwgl5a`
+- **OCID**: `ocid1.compartment.oc1..aaaaaaaa57voziabju2jz4vv7pxkudy3eya6qrnyayoo4xwqiodcew3kqsnq`
 - **Pai**: Tenancy root (`ocid1.tenancy.oc1..aaaaaaaaehlqeml7m3rbt7f66fknd6z4dqyijnrslo7j7luvaacdf22vf7rq`)
 
-#### VCN SHARED-VCN-PROD
+#### VCN SHARED-VCN-NONPROD
 - **Status**: ✅ CRIADA
-- **OCID**: `ocid1.vcn.oc1.sa-saopaulo-1.amaaaaaaezgfvpaavoklyidgxc2qbbpfnwfqweple4kisjtqidllandt2zua`
-- **CIDR**: 10.1.0.0/16
+- **OCID**: `ocid1.vcn.oc1.sa-saopaulo-1.amaaaaaaezgfvpaaz35dox7kzzuoskfhgrov3qfqwv3xl6sbxrdamjrswrea`
+- **CIDR**: 10.2.0.0/16
 - **Região**: sa-saopaulo-1 (São Paulo)
 
 #### Recursos de Rede Implantados
 | Recurso | OCID | Status |
 |---------|------|--------|
-| Internet Gateway | ocid1.internetgateway.oc1.sa-saopaulo-1.aaaaaaaa7caci57rmgjqjtnlz4hvnfkh3y6bc6olzwspqvjl4d2bwto2t5da | ✅ |
-| NAT Gateway | ocid1.natgateway.oc1.sa-saopaulo-1.aaaaaaaamx3xdhjtpsipzo5bnflflxyyop6l47kqm6asnf6ao7dof3hoiaka | ✅ |
-| Service Gateway | ocid1.servicegateway.oc1.sa-saopaulo-1.aaaaaaaaakhvnxoz2clofnovc5mk5w65hl2kb7sfq3fpz7i3r2iyt3e72tya | ✅ |
-| RT Pública | ocid1.routetable.oc1.sa-saopaulo-1.aaaaaaaatjpgf6m4lga7xr2bi2l2gtxjhrowwfi2dqcblz4ujo6lczk6hrzq | ✅ |
-| RT Privada | ocid1.routetable.oc1.sa-saopaulo-1.aaaaaaaazu2b522g5vwkqmvopbrvhw6ofdqalv3q4mztrr5duy6xlwcl7ytq | ✅ |
-| Subnet Pública (10.1.1.0/24) | ocid1.subnet.oc1.sa-saopaulo-1.aaaaaaaakkozohwe7z4pgmd33eydasgpptzmgv3wbzfv7jdskbe2kk4eantq | ✅ |
-| Subnet Privada (10.1.2.0/24) | ocid1.subnet.oc1.sa-saopaulo-1.aaaaaaaaj6y2bkbginkxnsbpgylo7u643jrfpyxuajifmwb35gkuavwbferq | ✅ |
+| Internet Gateway | ocid1.internetgateway.oc1.sa-saopaulo-1.aaaaaaaatqvxawvtywuvvh5ga4bxtzhjzhbeghorm4cnwwme3yl6cfqov7ia | ✅ |
+| NAT Gateway | ocid1.natgateway.oc1.sa-saopaulo-1.aaaaaaaamjiitdubuenpkr5gwy5rdjyxcb5muq5jozr2p7jo4b5wlaympyaq | ✅ |
+| Service Gateway | ocid1.servicegateway.oc1.sa-saopaulo-1.aaaaaaaab2ziajy24qgdecbdlpgto6yndtypucgimtw6oczfucezacc4s2tq | ✅ |
+| RT Pública | ocid1.routetable.oc1.sa-saopaulo-1.aaaaaaaa3xjviouxojpfxsa5djsnbkvbsruuse4fyigeugip6e2pz6gry4gq | ✅ |
+| RT Privada | ocid1.routetable.oc1.sa-saopaulo-1.aaaaaaaad5z55vn23p7ju6extdfftu4mafdyq5ucmgtipyxdlc63swnz2pnq | ✅ |
+| Subnet Pública (10.2.1.0/24) | ocid1.subnet.oc1.sa-saopaulo-1.aaaaaaaas65vzhsa5d26awupovs26bz7iqj5ulud7llcoo34ie6uv7z7vcva | ✅ |
+| Subnet Privada (10.2.2.0/24) | ocid1.subnet.oc1.sa-saopaulo-1.aaaaaaaa2fpsjzxm67rzlyzt4jh7mkwzusw2pqu3rbhmg43il75ogtslydka | ✅ |
 
 ### 🔧 Correções Implementadas
 
@@ -45,7 +57,7 @@ Executar com sucesso `terraform apply` para implantar a infraestrutura de rede c
 
 3. **Referências VCN - Alteradas**
    - Problema: VCN tentava usar `child_level` comentado
-   - Solução: Alterado para `root_level["prod"]`
+   - Solução: Alterado para `root_level["nonprod"]`
    - Arquivo: `vcn.tf` (múltiplas linhas)
 
 4. **Outputs - Ajustados**
@@ -57,30 +69,30 @@ Executar com sucesso `terraform apply` para implantar a infraestrutura de rede c
 
 | Métrica | Valor |
 |---------|-------|
-| Recursos Criados | 9 ✅ |
+| Recursos Criados | 8 ✅ |
 | Recursos Falhados | 0 |
-| Tempo de Apply | ~20-25s |
+| Tempo de Apply | ~15-20s |
 | Linhas Alteradas | ~50+ |
-| Commits | 1 (485c08e) |
+| Commits | 1 (b2e0f03) |
 
 ### 📝 Commit Realizado
 
-**Hash**: `485c08e`
+**Hash**: `b2e0f03`
 ```
-Apply successful: compartment PROD and VCN SHARED-VCN-PROD (10.1.0.0/16) deployed
+Apply successful: compartment NONPROD and VCN SHARED-VCN-NONPROD (10.2.0.0/16) deployed
 
 - Fixed tenancy OCID references in tfvars
 - Commented child compartment resources (permission issue)
 - Fixed VCN references to use root_level compartment
 - Commented invalid Service Gateway route
 - Simplified tfvars: emptied project_* variables
-- 9 network resources successfully created in OCI
+- 8 network resources successfully created in OCI
 ```
 
 ### ✅ Validações
 
 - ✅ Compartimento visível no OCI Console
-- ✅ VCN com CIDR correto (10.1.0.0/16)
+- ✅ VCN com CIDR correto (10.2.0.0/16)
 - ✅ Subnets pública e privada funcionais
 - ✅ Gateways (IGW, NAT, SGW) operacionais
 - ✅ Route tables configuradas
@@ -92,17 +104,6 @@ Apply successful: compartment PROD and VCN SHARED-VCN-PROD (10.1.0.0/16) deploye
 - [ ] Phase 3: Políticas IAM
 - [ ] Phase 4: Recursos de aplicação (instâncias, DBs, buckets)
 - [ ] Phase 5: Subnets dedicadas por projeto
-
-### 📊 Comparativo NONPROD vs PROD
-
-| Elemento | NONPROD | PROD |
-|----------|---------|------|
-| Compartimento OCID | ...57voziabju2jz4vv7pxkudy3eya6qrnyayoo4xwqiodcew3kqsnq | ...5i7sfaqrneykgkfbxkjaxkqgq7cdu6anpfzedk7f4g6l2vrwgl5a |
-| VCN OCID | ...amaaaaaaezgfvpaaz35dox7kzzuoskfhgrov3qfqwv3xl6sbxrdamjrswrea | ...amaaaaaaezgfvpaavoklyidgxc2qbbpfnwfqweple4kisjtqidllandt2zua |
-| CIDR VCN | 10.2.0.0/16 | 10.1.0.0/16 |
-| CIDR Subnet Pub | 10.2.1.0/24 | 10.1.1.0/24 |
-| CIDR Subnet Priv | 10.2.2.0/24 | 10.1.2.0/24 |
-| Recursos | 8 | 9 |
 
 ---
 

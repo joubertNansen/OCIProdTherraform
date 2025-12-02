@@ -1,3 +1,4 @@
+```python
 """
 Arquivo: cost_allocation.py
 Propósito: exemplo simples de rateio de custos por número de usuários entre projetos.
@@ -32,3 +33,4 @@ allocation = {
 # Imprime o valor alocado para cada projeto em formato legível
 for project, cost in allocation.items():
     print(f"{project}: R$ {cost}")
+```
