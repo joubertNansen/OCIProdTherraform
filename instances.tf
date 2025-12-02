@@ -37,7 +37,9 @@ resource "oci_core_instance" "project_instance" {
 
   # Resolve compartment: prefer explicit OCID, else use logical compartment name created by child_level
   compartment_id = lookup(each.value, "compartment_id", "") != "" ? lookup(each.value, "compartment_id", "") : (
-    lookup(each.value, "compartment", "") != "" ? oci_identity_compartment.child_level[lookup(each.value, "compartment", "")].id : var.tenancy_ocid
+    lookup(each.value, "compartment", "") != "" ? (
+      contains(keys(oci_identity_compartment.child_level), lookup(each.value, "compartment", "")) ? oci_identity_compartment.child_level[lookup(each.value, "compartment", "")].id : lookup(each.value, "compartment", "")
+    ) : local.selected_root_compartment_id
   )
 
   shape = lookup(each.value, "shape", "VM.Standard2.1")

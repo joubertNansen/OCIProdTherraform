@@ -17,7 +17,9 @@ resource "oci_objectstorage_bucket" "project_bucket" {
   for_each = var.project_buckets  # for_each: Cria um bucket para cada projeto definido em var.project_buckets
   name     = "bucket-${each.key}" # name: Nome do bucket (ex: bucket-projeto-a-nonprod) # Será precedido por um prefixo automático para garantir unicidade global
   compartment_id = lookup(each.value, "compartment_id", "") != "" ? lookup(each.value, "compartment_id", "") : (
-    lookup(each.value, "compartment", "") != "" ? oci_identity_compartment.child_level[lookup(each.value, "compartment", "")].id : var.tenancy_ocid
+    lookup(each.value, "compartment", "") != "" ? (
+      contains(keys(oci_identity_compartment.child_level), lookup(each.value, "compartment", "")) ? oci_identity_compartment.child_level[lookup(each.value, "compartment", "")].id : lookup(each.value, "compartment", "")
+    ) : local.selected_root_compartment_id
   )
   namespace    = lookup(each.value, "namespace", "") != "" ? lookup(each.value, "namespace", "") : data.oci_objectstorage_namespace.ns.namespace # namespace: Namespace (identificador global único do bucket) # Geralmente é o namespace da tenancy (conta)
   storage_tier = "Standard"                          # storage_tier: Tipo de armazenamento # "Standard" = acesso frequente (mais rápido, mais caro) # "Archive" = acesso infrequente (mais lento, mais barato)

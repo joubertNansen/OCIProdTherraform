@@ -20,10 +20,7 @@ resource "oci_identity_policy" "project_policy" {
   # This ensures the policy compartment subtree contains the referenced project compartments
   # (policy statements reference compartments by name and must be within the policy subtree).
   compartment_id = lookup(each.value, "compartment_id", "") != "" ? lookup(each.value, "compartment_id", "") : (
-    lookup(each.value, "policy_compartment", "") != "" ? lookup(each.value, "policy_compartment", "") : (
-      # prefer the nonprod root compartment (created as root_level["nonprod"]) when available
-      can(oci_identity_compartment.root_level) && contains(keys(oci_identity_compartment.root_level), "nonprod") ? oci_identity_compartment.root_level["nonprod"].id : var.tenancy_ocid
-    )
+    lookup(each.value, "policy_compartment", "") != "" ? lookup(each.value, "policy_compartment", "") : local.selected_root_compartment_id
   )
 
   # Transform provided statements to reference the actual OCI compartment display name
