@@ -1,14 +1,14 @@
 # ====================================================================
 # ARQUIVO: vcn.tf
-# DESCRIÇÃO: Cria VCN e subnets públicas/privadas compartilhadas para PROD
-#            Recursos criados dentro do compartimento `shared-network-prod`
+# DESCRIÇÃO: Cria VCN e subnets públicas/privadas compartilhadas para NONPROD
+#            Recursos criados dentro do compartimento `shared-network-nonprod`
 # ====================================================================
 
 data "oci_core_services" "all_services" {}
 
 resource "oci_core_virtual_network" "vcn_shared" {
-  compartment_id = oci_identity_compartment.root_level["prod"].id
-  display_name   = "SHARED-VCN-PROD"
+  compartment_id = oci_identity_compartment.root_level["nonprod"].id
+  display_name   = "SHARED-VCN-NONPROD"
   cidr_block     = var.vcn_cidr
 
   lifecycle {
@@ -17,47 +17,47 @@ resource "oci_core_virtual_network" "vcn_shared" {
 }
 
 resource "oci_core_internet_gateway" "igw" {
-  compartment_id = oci_identity_compartment.root_level["prod"].id
+  compartment_id = oci_identity_compartment.root_level["nonprod"].id
   vcn_id         = oci_core_virtual_network.vcn_shared.id
-  display_name   = "IGW-SHARED-PROD"
+  display_name   = "IGW-SHARED-NONPROD"
   enabled        = true
 }
 
 resource "oci_core_nat_gateway" "nat" {
-  compartment_id = oci_identity_compartment.root_level["prod"].id
+  compartment_id = oci_identity_compartment.root_level["nonprod"].id
   vcn_id         = oci_core_virtual_network.vcn_shared.id
-  display_name   = "NAT-SHARED-PROD"
+  display_name   = "NAT-SHARED-NONPROD"
 }
 
 resource "oci_core_service_gateway" "sgw" {
-  compartment_id = oci_identity_compartment.root_level["prod"].id
+  compartment_id = oci_identity_compartment.root_level["nonprod"].id
   vcn_id         = oci_core_virtual_network.vcn_shared.id
-  display_name   = "SGW-SHARED-PROD"
+  display_name   = "SGW-SHARED-NONPROD"
   services {
     service_id = data.oci_core_services.all_services.services[0].id
   }
 }
 
 resource "oci_core_route_table" "rt_public" {
-  compartment_id = oci_identity_compartment.root_level["prod"].id
+  compartment_id = oci_identity_compartment.root_level["nonprod"].id
   vcn_id         = oci_core_virtual_network.vcn_shared.id
-  display_name   = "RT-PUBLIC-SHARED-PROD"
+  display_name   = "RT-PUBLIC-SHARED-NONPROD"
 
   route_rules {
-    destination      = "0.0.0.0/0"
-    destination_type = "CIDR_BLOCK"
+    destination       = "0.0.0.0/0"
+    destination_type  = "CIDR_BLOCK"
     network_entity_id = oci_core_internet_gateway.igw.id
   }
 }
 
 resource "oci_core_route_table" "rt_private" {
-  compartment_id = oci_identity_compartment.root_level["prod"].id
+  compartment_id = oci_identity_compartment.root_level["nonprod"].id
   vcn_id         = oci_core_virtual_network.vcn_shared.id
-  display_name   = "RT-PRIVATE-SHARED-PROD"
+  display_name   = "RT-PRIVATE-SHARED-NONPROD"
 
   route_rules {
-    destination      = "0.0.0.0/0"
-    destination_type = "CIDR_BLOCK"
+    destination       = "0.0.0.0/0"
+    destination_type  = "CIDR_BLOCK"
     network_entity_id = oci_core_nat_gateway.nat.id
   }
 
@@ -67,20 +67,20 @@ resource "oci_core_route_table" "rt_private" {
   dynamic "route_rules" {
     for_each = var.enable_service_gateway_routes && length(trim(var.service_gateway_destination)) > 0 ? [1] : []
     content {
-      destination      = var.service_gateway_destination
-      destination_type = var.service_gateway_destination_type
+      destination       = var.service_gateway_destination
+      destination_type  = var.service_gateway_destination_type
       network_entity_id = oci_core_service_gateway.sgw.id
     }
   }
 }
 
 resource "oci_core_subnet" "public_shared" {
-  compartment_id               = oci_identity_compartment.root_level["prod"].id
-  vcn_id                       = oci_core_virtual_network.vcn_shared.id
-  display_name                 = "subnet-pub-shared"
-  cidr_block                   = var.subnet_cidrs["public"]
-  prohibit_public_ip_on_vnic   = false
-  route_table_id               = oci_core_route_table.rt_public.id
+  compartment_id             = oci_identity_compartment.root_level["nonprod"].id
+  vcn_id                     = oci_core_virtual_network.vcn_shared.id
+  display_name               = "subnet-pub-shared"
+  cidr_block                 = var.subnet_cidrs["public"]
+  prohibit_public_ip_on_vnic = false
+  route_table_id             = oci_core_route_table.rt_public.id
 
   lifecycle {
     create_before_destroy = true
@@ -88,29 +88,28 @@ resource "oci_core_subnet" "public_shared" {
 }
 
 resource "oci_core_subnet" "private_shared" {
-  compartment_id               = oci_identity_compartment.root_level["prod"].id
-  vcn_id                       = oci_core_virtual_network.vcn_shared.id
-  display_name                 = "subnet-priv-shared"
-  cidr_block                   = var.subnet_cidrs["private"]
-  prohibit_public_ip_on_vnic   = true
-  route_table_id               = oci_core_route_table.rt_private.id
+  compartment_id             = oci_identity_compartment.root_level["nonprod"].id
+  vcn_id                     = oci_core_virtual_network.vcn_shared.id
+  display_name               = "subnet-priv-shared"
+  cidr_block                 = var.subnet_cidrs["private"]
+  prohibit_public_ip_on_vnic = true
+  route_table_id             = oci_core_route_table.rt_private.id
 
   lifecycle {
     create_before_destroy = true
   }
 }
 
-# --- Subnets dedicadas por projeto (opcionais) ---
 // Subnets dedicadas por projeto (opcionais) - criadas somente se `var.enable_project_subnets` for true
 resource "oci_core_subnet" "project_subnet" {
   for_each = var.enable_project_subnets ? var.project_subnets : {}
 
-  compartment_id = oci_identity_compartment.child_level[each.value.compartment].id
-  vcn_id         = oci_core_virtual_network.vcn_shared.id
-  display_name   = "subnet-${each.key}"
-  cidr_block     = each.value.cidr_block
+  compartment_id             = oci_identity_compartment.child_level[each.value.compartment].id
+  vcn_id                     = oci_core_virtual_network.vcn_shared.id
+  display_name               = "subnet-${each.key}"
+  cidr_block                 = each.value.cidr_block
   prohibit_public_ip_on_vnic = !each.value.public
-  route_table_id = each.value.public ? oci_core_route_table.rt_public.id : oci_core_route_table.rt_private.id
+  route_table_id             = each.value.public ? oci_core_route_table.rt_public.id : oci_core_route_table.rt_private.id
 
   lifecycle {
     create_before_destroy = true

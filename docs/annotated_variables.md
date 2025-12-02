@@ -1,3 +1,4 @@
+```terraform
 /*
 Arquivo: variables.tf (anotado)
 Propósito: declarações das variáveis que parametram o módulo/infraestrutura.
@@ -40,33 +41,20 @@ variable "project_policies" {
 
 /* Instâncias por projeto */
 variable "project_instances" {
-  # Estrutura que define os parâmetros necessários para criar instâncias
-  type = map(object({
-    availability_domain = string,
-    compartment_id      = string,
-    shape               = string,
-    subnet_id           = string,
-    image_id            = string
-  }))
+  # Estrutura flexível: aceitar OCIDs diretos ou referências lógicas (ver README/inlined examples)
+  type = map(any)
   default = {}
 }
 
 /* Buckets (Object Storage) por projeto */
 variable "project_buckets" {
-  type = map(object({ compartment_id = string, namespace = string }))
+  type = map(any)
   default = {}
 }
 
 /* Bancos de dados (DB systems) por projeto */
 variable "project_databases" {
-  type = map(object({
-    availability_domain = string,
-    compartment_id      = string,
-    shape               = string,
-    subnet_id           = string,
-    database_edition    = string,
-    db_name             = string,
-    admin_password      = string
-  }))
+  type = map(any)
   default = {}
 }
+```

@@ -1,8 +1,7 @@
-# OCIProdTerraform 🚀## OCIProdTerraform
 
+# OCIProdTerraform 🚀
 
-
-Infraestrutura como Código (IaC) para provisionar um ambiente **produção** completo na **Oracle Cloud Infrastructure (OCI)** usando Terraform.Repositório com módulo Terraform que cria infra básica na Oracle Cloud
+Infraestrutura como Código (IaC) para provisionar um ambiente **Não Produção** completo na **Oracle Cloud Infrastructure (OCI)** usando Terraform.Repositório com módulo Terraform que cria infra básica na Oracle Cloud
 
 Infrastructure (OCI). Contém recursos parametrizados para:
 
@@ -64,7 +63,7 @@ Esta aplicação Terraform automatiza a criação e gerenciamento de recursos na
 
 **Provedor:** Oracle Cloud Infrastructure (OCI)	- Edite `terraform_prod.tfvars` e preencha os campos `tenancy_ocid`, `user_ocid`,
 
-		`fingerprint`, `private_key_path` e `region` com os valores corretos.
+    `fingerprint`, `private_key_path` e `region` com os valores corretos.
 
 ---
 
@@ -86,43 +85,43 @@ Esta aplicação Terraform automatiza a criação e gerenciamento de recursos na
 
 │                                                             │terraform init
 
-│  ┌──────────────────────────────────────────────────────┐  │```
+│  ┌──────────────────────────────────────────────────────┐  │
 
 │  │  VCN (Rede Virtual) - 10.1.0.0/16                   │  │
 
 │  │                                                      │  │3. Validar e planejar
 
-│  │  ┌─────────────────────┐  ┌─────────────────────┐  │  │
+│  │  ┌─────────────────────┐  ┌─────────────────────┐  │  │```powershell
 
-│  │  │ Sub-rede Pública    │  │ Sub-rede Privada    │  │  │```powershell
+│  │  │ Sub-rede Pública    │  │ Sub-rede Privada    │  │  │terraform validate
 
-│  │  │ 10.1.1.0/24         │  │ 10.1.2.0/24         │  │  │terraform validate
+│  │  │ 10.1.1.0/24         │  │ 10.1.2.0/24         │  │  │terraform plan -var-file="terraform_prod.tfvars" -out=tfplan
 
-│  │  │                     │  │                     │  │  │terraform plan -var-file="terraform_prod.tfvars" -out=tfplan
+│  │  │                     │  │                     │  │  │```
 
-│  │  │ ┌─────────────────┐ │  │ ┌─────────────────┐ │  │  │```
+│  │  │ ┌─────────────────┐ │  │ ┌─────────────────┐ │  │  │4. Aplicar o plano (revise o `tfplan` antes de aplicar)
 
 │  │  │ │  Instância VM   │ │  │ │  Banco de Dados │ │  │  │
 
 │  │  │ │ (Aplicação Web) │ │  │ │  (Oracle DB)    │ │  │  │4. Aplicar o plano (revise o `tfplan` antes de aplicar)
 
-│  │  │ └─────────────────┘ │  │ └─────────────────┘ │  │  │
+│  │  │ └─────────────────┘ │  │ └─────────────────┘ │  │  │4. Aplicar o plano (revise o `tfplan` antes de aplicar)
 
 │  │  └─────────────────────┘  └─────────────────────┘  │  │```powershell
 
-│  └──────────────────────────────────────────────────────┘  │terraform apply "tfplan"
+│                                                             │terraform apply "tfplan"
 
 │                                                             │```
 
 │  ┌──────────────────────────────────────────────────────┐  │
 
-│  │  Object Storage                                      │  │5. Pós-deploy
+│  │  Object Storage                                      │  │
 
 │  │  ┌────────────────────────────────────────────────┐ │  │
 
-│  │  │ Bucket (Armazenamento de arquivos, logs)      │ │  │- Verifique no Console OCI os recursos criados (VCN, subnets, instâncias,
+│  │  │ Bucket (Armazenamento de arquivos, logs)      │ │  │
 
-│  │  └────────────────────────────────────────────────┘ │  │	buckets e DB systems) e confirme que estão nos compartments corretos.
+│  │  └────────────────────────────────────────────────┘ │  │
 
 │  └──────────────────────────────────────────────────────┘  │
 
@@ -136,67 +135,81 @@ Esta aplicação Terraform automatiza a criação e gerenciamento de recursos na
 
 │  • projeto-a-prod (recursos específicos do projeto)        │
 
-│                                                             │```powershell
+│                                                             │
 
 └─────────────────────────────────────────────────────────────┘.\push.ps1
 
-``````
+---
 
+## Arquitetura
 
-
----## Notas de segurança e boas práticas
-
-
-
-## Pré-requisitos- Nunca armazene chaves privadas diretamente no repositório. Mova chaves para
-
-	`%USERPROFILE%\.ssh` e adicione `key`/padrões ao `.gitignore` (já configurado).
-
-Você precisa ter instalado e configurado:- Senhas e secrets (ex.: `admin_password` em `terraform_prod.tfvars`) devem ser
-
-	gerenciadas via mecanismo seguro (Vault, OCI Vault, variables de pipeline),
-
-### 1. **Terraform** (v1.0+)	e não commitadas em texto claro no repo.
-
-```bash- Considere usar SSH com `ssh-agent` ou Git Credential Manager para autenticação
-
-# Verificar instalação	com o Git. No Windows, inicie e habilite o serviço `ssh-agent` se usar chaves SSH.
-
-terraform --version
-
-## Restauração / limpeza
-
-# Download: https://www.terraform.io/downloads
-
-```- Para desfazer: rode `terraform destroy -var-file="terraform_prod.tfvars"` —
-
-	revise antes de executar pois irá remover recursos.
-
-### 2. **Oracle Cloud CLI** (opcional, mas recomendado)
-
-```bash## Perguntas frequentes (rápidas)
-
-# Verificar instalação
-
-oci --version- Posso rodar isso localmente? Sim, se tiver acesso e permissões na tenancy OCI.
-
-- Como evitar custos? Teste primeiro em uma tenancy de desenvolvimento e
-
-# Download: https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/climanualinst.htm	remova recursos após o teste (`terraform destroy`).
-
+```
+┌─────────────────────────────────────────────────────────────┐
+│                  Oracle Cloud (OCI)                         │
+│                  Região: São Paulo                          │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  ┌──────────────────────────────────────────────────────┐  │
+│  │  VCN (Rede Virtual) - 10.2.0.0/16                   │  │
+│  │                                                      │  │
+│  │  ┌─────────────────────┐  ┌─────────────────────┐  │  │
+│  │  │ Sub-rede Pública    │  │ Sub-rede Privada    │  │  │
+│  │  │ 10.2.1.0/24         │  │ 10.2.2.0/24         │  │  │
+│  │  │                     │  │                     │  │  │
+│  │  │ ┌─────────────────┐ │  │ ┌─────────────────┐ │  │  │
+│  │  │ │  Instância VM   │ │  │ │  Banco de Dados │ │  │  │
+│  │  │ │ (Aplicação Web) │ │  │ │  (Oracle DB)    │ │  │  │
+│  │  │ └─────────────────┘ │  │ └─────────────────┘ │  │  │
+│  │  └─────────────────────┘  └─────────────────────┘  │  │
+│  └──────────────────────────────────────────────────────┘  │
+│                                                             │
+│  ┌──────────────────────────────────────────────────────┐  │
+│  │  Object Storage                                      │  │
+│  │  ┌────────────────────────────────────────────────┐ │  │
+│  │  │ Bucket (Armazenamento de arquivos, logs)      │ │  │
+│  │  └────────────────────────────────────────────────┘ │  │
+│  └──────────────────────────────────────────────────────┘  │
+│                                                             │
+│  Compartimentos:                                            │
+│  • nonprod (raiz)                                           │
+│  • shared-network-nonprod (rede compartilhada)             │
+│  • projeto-a-nonprod (recursos específicos do projeto)     │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
+## Pré-requisitos
+
+Você precisa ter instalado e configurado:
+
+### 1. **Terraform** (v1.0+)
+```bash
+# Verificar instalação
+terraform --version
+
+# Download: https://www.terraform.io/downloads
+```
+
+### 2. **Oracle Cloud CLI** (opcional, mas recomendado)
+```bash
+# Verificar instalação
+oci --version
+
+# Download: https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/climanualinst.htm
+```
+
 ### 3. **Credenciais OCI**
+Você precisa de uma chave privada API para autenticar com OCI:
 
 ```bash
 # Gerar chave privada (se ainda não tiver)
 # Via OCI Console → User Profile → API Keys → Add API Key
-# Salvar em: ~/.oci/prod_api_key.pem
+# Salvar em: ~/.oci/nonprod_api_key.pem
 
 # Verificar permissões
-chmod 600 ~/.oci/prod_api_key.pem
+chmod 600 ~/.oci/nonprod_api_key.pem
 ```
 
 ### 4. **Git** (para clonar/trabalhar com repositório)
@@ -218,8 +231,8 @@ python --version
 ### 1️⃣ Clonar o Repositório
 
 ```bash
-git clone https://github.com/joubertNansen/OCIProdTherraform.git
-cd OCIProdTherraform
+git clone https://github.com/joubertNansen/OCINonProdTherraform.git
+cd OCINonProdTherraform
 ```
 
 ### 2️⃣ Verificar Estrutura de Arquivos
@@ -229,7 +242,7 @@ ls -la
 # Esperado:
 # - main.tf
 # - variables.tf
-# - terraform_prod.tfvars
+# - terraform_nonprod.tfvars
 # - buckets.tf
 # - databases.tf
 # - instances.tf
@@ -251,7 +264,7 @@ terraform init
 
 ### 1️⃣ Editar Arquivo de Valores
 
-Abra `terraform_prod.tfvars` e atualize com seus dados OCI:
+Abra `terraform_nonprod.tfvars` e atualize com seus dados OCI:
 
 ```hcl
 # Sua região OCI (ex: sa-saopaulo-1, us-ashburn-1)
@@ -267,9 +280,54 @@ user_ocid        = "ocid1.user.oc1..XXXXX"
 fingerprint      = "XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX:XX"
 
 # Caminho da sua chave privada
-private_key_path = "~/.oci/prod_api_key.pem"
+private_key_path = "~/.oci/nonprod_api_key.pem"
 
 # Resto das configurações...
+```
+
+### Exemplo mínimo para criar um novo projeto (tfvars)
+
+Cole este bloco no final de `terraform_nonprod.tfvars` como exemplo mínimo para criar um projeto com subnet dedicada, uma VM, bucket e políticas. Ajuste `compartment` para o nome lógico do compartimento já declarado em `compartments` ou use `compartment_id` com o OCID.
+
+```hcl
+# Declarar uma subnet dedicada ao projeto
+project_subnets = {
+  "projeto-novo" = {
+    cidr_block  = "10.2.20.0/24"
+    public      = false     # se true, as VMs nesta subnet podem receber IP público
+    compartment = "projeto-novo-nonprod"
+  }
+}
+
+# Criar uma VM simples no projeto
+project_instances = {
+  "projeto-novo-instance-1" = {
+    compartment     = "projeto-novo-nonprod"  # nome lógico do compartimento
+    subnet          = "projeto-novo"          # chave em project_subnets
+    shape           = "VM.Standard2.1"        # override do shape
+    # image_id      = "ocid1.image..."        # opcional: fornece imagem específica
+    assign_public_ip = false                    # opcional: override para IP público
+  }
+}
+
+# Criar bucket no compartimento do projeto
+project_buckets = {
+  "projeto-novo" = {
+    compartment = "projeto-novo-nonprod"
+    # namespace opcional; será obtido automaticamente
+  }
+}
+
+# Políticas IAM para o projeto (nome lógico do compartimento é aceito)
+project_policies = {
+  "projeto-novo" = {
+    compartment = "projeto-novo-nonprod"
+    statements = [
+      "Allow group Devs to manage instance-family in compartment projeto-novo-nonprod",
+      "Allow group Devs to read object-family in compartment projeto-novo-nonprod"
+    ]
+  }
+}
 ```
 
 ### 2️⃣ Validar Configuração
@@ -314,13 +372,13 @@ terraform apply
 terraform state list
 
 # Detalhes de um recurso específico
-terraform state show 'oci_core_instance.project_instance["projeto-a-prod"]'
+terraform state show 'oci_core_instance.project_instance["projeto-a-nonprod"]'
 ```
 
 ### 🔄 Modificar Recursos
 
 ```bash
-# Editar terraform_prod.tfvars com novas configurações
+# Editar terraform_nonprod.tfvars com novas configurações
 
 # Visualizar mudanças
 terraform plan
@@ -332,7 +390,7 @@ terraform apply
 ### 🗑️ Destruir Infraestrutura
 
 ```bash
-# ⚠️ ATENÇÃO: Isto deletará TODOS os recursos na OCI!
+# ATENÇÃO: Isto deletará TODOS os recursos na OCI!
 terraform destroy
 
 # Confirmar digitando "yes"
@@ -358,7 +416,7 @@ python cost_allocation.py
 |---------|-----------|
 | `main.tf` | Configuração do provedor OCI e módulo principal |
 | `variables.tf` | Definição de todas as variáveis (parâmetros) |
-| `terraform_prod.tfvars` | Valores das variáveis (dados reais) |
+| `terraform_nonprod.tfvars` | Valores das variáveis (dados reais) |
 | `iam_policies.tf` | Políticas de acesso e permissões |
 | `instances.tf` | Máquinas virtuais |
 | `buckets.tf` | Armazenamento em objeto (Object Storage) |
@@ -382,7 +440,7 @@ region           # Região geográfica
 ### Rede
 ```hcl
 compartments     # Divisões lógicas da conta
-vcn_cidr         # Faixa IP da rede virtual (ex: 10.1.0.0/16)
+vcn_cidr         # Faixa IP da rede virtual (ex: 10.2.0.0/16)
 subnet_cidrs     # Faixas IP das sub-redes (pública/privada)
 ```
 
@@ -436,13 +494,13 @@ project_databases # Bancos de dados
 # - Fingerprints
 
 # Usar .gitignore para excluir arquivos sensíveis:
-echo "terraform_prod.tfvars" >> .gitignore
+echo "terraform_nonprod.tfvars" >> .gitignore
 echo "*.pem" >> .gitignore
 ```
 
 ### 2. **Usar Vault para Senhas**
 
-Em vez de armazenar senhas em `terraform_prod.tfvars`, use:
+Em vez de armazenar senhas em `terraform_nonprod.tfvars`, use:
 
 ```bash
 # Option 1: Variáveis de ambiente
@@ -475,8 +533,8 @@ echo "terraform.tfstate*" >> .gitignore
 ```hcl
 # Exemplo: Permitir apenas o necessário
 statements = [
-  "Allow group Devs to manage all-resources in compartment projeto-a-prod",
-  "Allow group Devs to use virtual-network-family in compartment shared-network-prod"
+  "Allow group Devs to manage all-resources in compartment projeto-a-nonprod",
+  "Allow group Devs to use virtual-network-family in compartment shared-network-nonprod"
 ]
 ```
 
@@ -538,8 +596,8 @@ terraform output -json
 
 **Solução:**
 - Verificar se caminho `private_key_path` está correto
-- Verificar permissões: `chmod 600 ~/.oci/prod_api_key.pem`
-- Verificar OCIDs em `terraform_prod.tfvars`
+- Verificar permissões: `chmod 600 ~/.oci/nonprod_api_key.pem`
+- Verificar OCIDs em `terraform_nonprod.tfvars`
 
 ```bash
 # Testar autenticação OCI CLI
@@ -623,7 +681,7 @@ Este projeto é fornecido como está. Use por sua conta e risco.
 ## Suporte
 
 Para dúvidas ou problemas:
-1. Consultar [Issues do GitHub](https://github.com/joubertNansen/OCIProdTherraform/issues)
+1. Consultar [Issues do GitHub](https://github.com/joubertNansen/OCINonProdTherraform/issues)
 2. Revisar logs: `terraform show`
 3. Ativar debug: `export TF_LOG=DEBUG`
 
