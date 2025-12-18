@@ -10,9 +10,16 @@
 
 region           = "sa-saopaulo-1"
 tenancy_ocid     = "ocid1.tenancy.oc1..aaaaaaaaehlqeml7m3rbt7f66fknd6z4dqyijnrslo7j7luvaacdf22vf7rq"
-user_ocid        = "ocid1.user.oc1..aaaaaaaatid5j2c4adsj3ifwyemhduip5ecz7onvo4egqo2gqhwq2o3jpeqa"
-fingerprint      = "1f:0f:92:28:b8:4b:43:90:e5:d2:ae:17:45:3c:07:c5"
-private_key_path = "/Users/joubertgabriel/.oci/nonprod_api_key.pem"
+user_ocid        = "ocid1.user.oc1..aaaaaaaa5i7sfaqrneykgkfbxkjaxkqgq7cdu6anpfzedk7f4g6l2vrwgl5a"
+fingerprint      = "dd:c3:73:27:da:d2:eb:4f:c5:8a:f0:ab:4f:f2:c2:4e"
+private_key_path = "~/.oci/oci_api_key.pem"
+
+
+# ---- OCID DO COMPARTIMENTO DE REDE ----
+# IMPORTANTE: Substitua pelo OCID real do compartimento "shared-network-prod"
+# Encontre este OCID no OCI Console > Identity & Security > Compartments
+# Procure pelo compartimento "shared-network-prod" e copie o OCID da coluna OCID
+network_compartment_ocid = "ocid1.compartment.oc1..aaaaaaaa5i7sfaqrneykgkfbxkjaxkqgq7cdu6anpfzedk7f4g6l2vrwgl5a"  # Usando tenancy root por enquanto
 
 
 # ---- COMPARTIMENTOS ----
@@ -28,12 +35,12 @@ compartments = {
     # Compartimento compartilhado de rede (recursos compartilhados entre projetos)
   "shared-network-prod" = {
     description = "Rede compartilhada produção"
-    parent_ocid = "ocid1.compartment.oc1..prodCompID"  # Pai é o compartimento "prod"
+    parent_ocid = "ocid1.compartment.oc1..aaaaaaaa5i7sfaqrneykgkfbxkjaxkqgq7cdu6anpfzedk7f4g6l2vrwgl5a"  # Pai é o compartimento "prod"
   },
     # Compartimento específico do Projeto A
   "projeto-a-prod" = {
     description = "Projeto A produção"
-    parent_ocid = "ocid1.compartment.oc1..prodCompID"  # Pai é o compartimento "prod"
+    parent_ocid = "ocid1.compartment.oc1..aaaaaaaa5i7sfaqrneykgkfbxkjaxkqgq7cdu6anpfzedk7f4g6l2vrwgl5a"  # Pai é o compartimento "prod"
   }
 }
 
@@ -64,12 +71,25 @@ project_policies = {}
 # ---- MÁQUINAS VIRTUAIS (Instâncias) ----
 # Cada projeto terá uma ou mais máquinas virtuais
 # --- Instâncias (exemplo para projeto A) ---
-project_instances = {}
+project_instances = {
+  "projeto-a-instance" = {
+    availability_domain = "" # opcional
+    compartment_id      = "ocid1.compartment.oc1..aaaaaaaa5i7sfaqrneykgkfbxkjaxkqgq7cdu6anpfzedk7f4g6l2vrwgl5a" # projeto-a-prod
+    shape               = "VM.Standard2.1"
+    subnet_id           = "" # será preenchido após criação da VCN
+    image_id            = "" # será preenchido com imagem padrão
+  }
+}
 
 # ---- ARMAZENAMENTO EM OBJETO (Buckets) ----
 # --- Buckets (Object Storage) por projeto ---
 # Para guardar arquivos, logs, backups, etc
-project_buckets = {}
+project_buckets = {
+  "projeto-a" = {
+    compartment_id = "ocid1.compartment.oc1..aaaaaaaa5i7sfaqrneykgkfbxkjaxkqgq7cdu6anpfzedk7f4g6l2vrwgl5a" # projeto-a-prod
+    namespace      = "id3q3tfq3tfq" # namespace da tenancy OCI
+  }
+}
 
 # ---- BANCOS DE DADOS ----
 # Para aplicações que precisam armazenar dados estruturados (SQL)
@@ -79,3 +99,8 @@ project_databases = {}
 # ---- SUBNETS DEDICADAS POR PROJETO (OPCIONAL) ----
 # Declarar subnets dedicadas somente quando o projeto exigir isolamento
 project_subnets = {}
+
+# Flags de controle para criação opcional
+enable_child_compartments = true
+enable_project_subnets    = false
+enable_service_gateway_routes = false
