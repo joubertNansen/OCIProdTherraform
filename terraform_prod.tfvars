@@ -74,14 +74,15 @@ project_instances = {
     subnet_id           = "" # será preenchido após criação da VCN
     image_id            = "" # será preenchido com imagem padrão
   }
-  # Adicione mais VMs conforme necessário usando esta estrutura:
-  # "nome-da-vm" = {
-  #   availability_domain = ""
-  #   compartment_id      = "ocid1.compartment..."
-  #   shape               = "VM.Standard2.1"
-  #   subnet_id           = ""
-  #   image_id            = ""
-  # }
+  
+  # Segunda VM de exemplo
+  "vm-teste-prod" = {
+    availability_domain = ""                                                                                      # Deixe vazio para usar AD padrão
+    compartment_id      = "ocid1.compartment.oc1..aaaaaaaa5i7sfaqrneykgkfbxkjaxkqgq7cdu6anpfzedk7f4g6l2vrwgl5a" # projeto-a-prod
+    shape               = "VM.Standard2.1"
+    subnet_id           = ""                                                                                      # Será preenchido automaticamente
+    image_id            = ""                                                                                      # Será preenchido automaticamente
+  }
 }
 
 # ---- ARMAZENAMENTO EM OBJETO (Buckets) ----
