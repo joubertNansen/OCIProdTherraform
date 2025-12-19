@@ -10,18 +10,13 @@
 
 region           = "sa-saopaulo-1"
 tenancy_ocid     = "ocid1.tenancy.oc1..aaaaaaaaehlqeml7m3rbt7f66fknd6z4dqyijnrslo7j7luvaacdf22vf7rq"
-user_ocid        = "ocid1.user.oc1..aaaaaaaa5i7sfaqrneykgkfbxkjaxkqgq7cdu6anpfzedk7f4g6l2vrwgl5a"
-fingerprint      = "dd:c3:73:27:da:d2:eb:4f:c5:8a:f0:ab:4f:f2:c2:4e"
-private_key_path = "~/.oci/oci_api_key.pem"
+user_ocid        = "ocid1.user.oc1..aaaaaaaatid5j2c4adsj3ifwyemhduip5ecz7onvo4egqo2gqhwq2o3jpeqa"
+fingerprint      = "1f:0f:92:28:b8:4b:43:90:e5:d2:ae:17:45:3c:07:c5"
+private_key_path = "~/.oci/nonprod_api_key.pem"  # Usando a mesma chave API para ambos os ambientes
 
 
 # ---- OCID DO COMPARTIMENTO DE REDE ----
 # IMPORTANTE: Substitua pelo OCID real do compartimento "shared-network-prod"
-# Encontre este OCID no OCI Console > Identity & Security > Compartments
-# Procure pelo compartimento "shared-network-prod" e copie o OCID da coluna OCID
-network_compartment_ocid = "ocid1.compartment.oc1..aaaaaaaa5i7sfaqrneykgkfbxkjaxkqgq7cdu6anpfzedk7f4g6l2vrwgl5a"  # Usando tenancy root por enquanto
-
-
 # ---- COMPARTIMENTOS ----
 # --- Compartimentos (compartments) ---
 # Compartimentos são divisões lógicas dentro da conta OCI
@@ -79,6 +74,7 @@ project_instances = {
     subnet_id           = "" # será preenchido após criação da VCN
     image_id            = "" # será preenchido com imagem padrão
   }
+  # Adicione mais VMs conforme necessário seguindo o mesmo padrão
 }
 
 # ---- ARMAZENAMENTO EM OBJETO (Buckets) ----
