@@ -90,7 +90,7 @@ project_instances = {
 project_buckets = {
   "projeto-a" = {
     compartment_id = "ocid1.compartment.oc1..aaaaaaaa5i7sfaqrneykgkfbxkjaxkqgq7cdu6anpfzedk7f4g6l2vrwgl5a" # projeto-a-prod
-    namespace      = "id3q3tfq3tfq" # namespace da tenancy OCI
+    namespace      = "grmfmdmm0jtb" # namespace correto da tenancy OCI
   }
 }
 
