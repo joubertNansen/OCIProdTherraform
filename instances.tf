@@ -24,7 +24,8 @@ resource "oci_core_instance" "project_instance" {
   # Define como a VM se conecta à rede
   create_vnic_details { 
     # subnet_id: ID da sub-rede (rede virtual) onde a VM será conectada
-    subnet_id = each.value.subnet_id
+    subnet_id        = each.value.subnet_id
+    assign_public_ip = true
   }
 
   # Configuração da Origem da VM

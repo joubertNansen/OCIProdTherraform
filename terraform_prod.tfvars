@@ -11,8 +11,8 @@
 region           = "sa-saopaulo-1"
 tenancy_ocid     = "ocid1.tenancy.oc1..aaaaaaaaehlqeml7m3rbt7f66fknd6z4dqyijnrslo7j7luvaacdf22vf7rq"
 user_ocid        = "ocid1.user.oc1..aaaaaaaatid5j2c4adsj3ifwyemhduip5ecz7onvo4egqo2gqhwq2o3jpeqa"
-fingerprint      = "1f:0f:92:28:b8:4b:43:90:e5:d2:ae:17:45:3c:07:c5"
-private_key_path = "~/.oci/nonprod_api_key.pem"  # Usando a mesma chave API para ambos os ambientes
+fingerprint      = "c3:a1:bd:38:7b:1e:10:58:6c:14:da:3d:70:a2:5a:4c"
+private_key_path = "/Users/joubertgabriel/.oci/nova_api_key.pem"  # Usando a mesma chave API para ambos os ambientes
 
 
 # ---- OCID DO COMPARTIMENTO DE REDE ----
@@ -68,20 +68,20 @@ project_policies = {}
 # --- Instâncias (exemplo para projeto A) ---
 project_instances = {
   "projeto-a-instance" = {
-    availability_domain = "" # opcional
+    availability_domain = "VFEJ:SA-SAOPAULO-1-AD-1"
     compartment_id      = "ocid1.compartment.oc1..aaaaaaaa5i7sfaqrneykgkfbxkjaxkqgq7cdu6anpfzedk7f4g6l2vrwgl5a" # projeto-a-prod
-    shape               = "VM.Standard2.1"
-    subnet_id           = "" # será preenchido após criação da VCN
-    image_id            = "" # será preenchido com imagem padrão
+    shape               = "VM.Standard.E2.1.Micro"
+    subnet_id           = "ocid1.subnet.oc1.sa-saopaulo-1.aaaaaaaazvn3qzsindn3qpdom5p63dpbxnryjjfbbyvp4cvmat4agtv6pm5q" # pub_subnet_shared
+    image_id            = "ocid1.image.oc1.sa-saopaulo-1.aaaaaaaadzfu47ymkk4sbvr66mcblrgkey6r5bjy7oau7hodv2tdllxbrodq" # Oracle Linux 8
   }
   
   # Segunda VM de exemplo
   "vm-teste-prod" = {
-    availability_domain = ""                                                                                      # Deixe vazio para usar AD padrão
+    availability_domain = "VFEJ:SA-SAOPAULO-1-AD-1"
     compartment_id      = "ocid1.compartment.oc1..aaaaaaaa5i7sfaqrneykgkfbxkjaxkqgq7cdu6anpfzedk7f4g6l2vrwgl5a" # projeto-a-prod
-    shape               = "VM.Standard2.1"
-    subnet_id           = ""                                                                                      # Será preenchido automaticamente
-    image_id            = ""                                                                                      # Será preenchido automaticamente
+    shape               = "VM.Standard.E2.1.Micro"
+    subnet_id           = "ocid1.subnet.oc1.sa-saopaulo-1.aaaaaaaazvn3qzsindn3qpdom5p63dpbxnryjjfbbyvp4cvmat4agtv6pm5q" # pub_subnet_shared
+    image_id            = "ocid1.image.oc1.sa-saopaulo-1.aaaaaaaadzfu47ymkk4sbvr66mcblrgkey6r5bjy7oau7hodv2tdllxbrodq" # Oracle Linux 8
   }
 }
 
