@@ -1,0 +1,37 @@
+# ====================================================================
+# ARQUIVO: terraform.tfvars.example
+# DESCRIÇÃO: Exemplo de configuração das variáveis para NepenMultilink
+# ====================================================================
+
+# ---- AUTENTICAÇÃO OCI ----
+tenancy_ocid     = "ocid1.tenancy.oc1..example"
+user_ocid        = "ocid1.user.oc1..example"
+fingerprint      = "xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx"
+private_key_path = "~/.oci/oci_api_key.pem"
+region           = "sa-saopaulo-1"
+
+# ---- COMPARTIMENTO ----
+compartment_id = "ocid1.compartment.oc1..example"
+
+# ---- AVAILABILITY DOMAIN ----
+availability_domain = "xxxx:SA-SAOPAULO-1-AD-1"
+
+# ---- DATABASE ----
+db_admin_password     = "SuaSenhaForteAqui123!"
+mongodb_admin_password = "SuaSenhaMongoAqui123!"
+
+# ---- IMAGENS ----
+ubuntu_image_id = "ocid1.image.oc1.sa-saopaulo-1.aaaaaaaaxxx"  # Ubuntu 22.04
+node_image_id   = "ocid1.image.oc1.sa-saopaulo-1.aaaaaaaaxxx"  # OKE node image
+
+# ---- DATABASE INSTANCES ----
+db_shape = "VM.Standard.E4.Flex"
+db_ocpus = 8
+db_memory = 120
+
+mongodb_shape = "VM.Standard.E4.Flex"
+mongodb_ocpus = 4
+mongodb_memory = 60
+
+# ---- SSH ----
+ssh_public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC..."

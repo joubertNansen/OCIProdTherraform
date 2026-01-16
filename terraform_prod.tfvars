@@ -22,20 +22,13 @@ private_key_path = "/Users/joubertgabriel/.oci/nova_api_key.pem"  # Usando a mes
 # Compartimentos são divisões lógicas dentro da conta OCI
 # Servem para organizar recursos, isolar acesso e controlar custos
 compartments = {
-    # Compartimento raiz para ambiente produção
+  # ATENÇÃO: Para o primeiro apply, deixe apenas o compartimento raiz "prod" abaixo.
+  # Após rodar o terraform apply, copie o OCID real do compartimento "prod" criado
+  # e atualize o campo parent_ocid dos filhos (shared-network-prod, projeto-a-prod).
+  # Depois, reintroduza os filhos e rode o apply novamente.
   "prod" = {
     description = "Compartimento de produção"
     parent_ocid = "ocid1.tenancy.oc1..aaaaaaaaehlqeml7m3rbt7f66fknd6z4dqyijnrslo7j7luvaacdf22vf7rq"  # Pai é a tenancy
-  },
-    # Compartimento compartilhado de rede (recursos compartilhados entre projetos)
-  "shared-network-prod" = {
-    description = "Rede compartilhada produção"
-    parent_ocid = "ocid1.compartment.oc1..aaaaaaaa5i7sfaqrneykgkfbxkjaxkqgq7cdu6anpfzedk7f4g6l2vrwgl5a"  # Pai é o compartimento "prod"
-  },
-    # Compartimento específico do Projeto A
-  "projeto-a-prod" = {
-    description = "Projeto A produção"
-    parent_ocid = "ocid1.compartment.oc1..aaaaaaaa5i7sfaqrneykgkfbxkjaxkqgq7cdu6anpfzedk7f4g6l2vrwgl5a"  # Pai é o compartimento "prod"
   }
 }
 
@@ -52,7 +45,7 @@ subnet_cidrs = {
     # Sub-rede pública: recursos acessíveis da internet (com NAT Gateway)
     # 10.1.1.0/24 oferece ~250 endereços IP
   public  = "10.1.1.0/24"
-  
+
     # Sub-rede privada: recursos sem acesso direto da internet (apenas via bastion)
     # 10.1.2.0/24 oferece ~250 endereços IP
   private = "10.1.2.0/24"
@@ -74,7 +67,7 @@ project_instances = {
     subnet_id           = "ocid1.subnet.oc1.sa-saopaulo-1.aaaaaaaazvn3qzsindn3qpdom5p63dpbxnryjjfbbyvp4cvmat4agtv6pm5q" # pub_subnet_shared
     image_id            = "ocid1.image.oc1.sa-saopaulo-1.aaaaaaaadzfu47ymkk4sbvr66mcblrgkey6r5bjy7oau7hodv2tdllxbrodq" # Oracle Linux 8
   }
-  
+
   # Segunda VM de exemplo
   "vm-teste-prod" = {
     availability_domain = "VFEJ:SA-SAOPAULO-1-AD-1"
@@ -83,6 +76,14 @@ project_instances = {
     subnet_id           = "ocid1.subnet.oc1.sa-saopaulo-1.aaaaaaaazvn3qzsindn3qpdom5p63dpbxnryjjfbbyvp4cvmat4agtv6pm5q" # pub_subnet_shared
     image_id            = "ocid1.image.oc1.sa-saopaulo-1.aaaaaaaadzfu47ymkk4sbvr66mcblrgkey6r5bjy7oau7hodv2tdllxbrodq" # Oracle Linux 8
   }
+
+  # Terceira VM de exemplo
+  "vm-web-prod" = {
+    availability_domain = "VFEJ:SA-SAOPAULO-1-AD-1"
+    compartment_id      = "ocid1.compartment.oc1..aaaaaaaa5i7sfaqrneykgkfbxkjaxkqgq7cdu6anpfzedk7f4g6l2vrwgl5a" # projeto-a-prod
+    shape               = "VM.Standard.E2.1.Micro"
+    subnet_id           = "ocid1.subnet.oc1.sa-saopaulo-1.aaaaaaaazvn3qzsindn3qpdom5p63dpbxnryjjfbbyvp4cvmat4agtv6pm5q" # pub_subnet_shared
+    image_id            = "ocid1.image.oc1.sa-saopaulo-1.aaaaaaaadzfu47ymkk4sbvr66mcblrgkey6r5bjy7oau7hodv2tdllxbrodq" # Oracle Linux 8
 }
 
 # ---- ARMAZENAMENTO EM OBJETO (Buckets) ----

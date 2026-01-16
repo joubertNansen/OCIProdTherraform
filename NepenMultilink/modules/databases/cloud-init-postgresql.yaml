@@ -1,0 +1,49 @@
+#cloud-config
+package_update: true
+package_upgrade: true
+
+packages:
+  - postgresql
+  - postgresql-contrib
+  - timescaledb-2-postgresql-14
+  - postgresql-14-pgaudit
+
+write_files:
+  - path: /etc/postgresql/14/main/postgresql.conf
+    content: |
+      listen_addresses = '*'
+      max_connections = 100
+      shared_buffers = 4GB
+      effective_cache_size = 12GB
+      maintenance_work_mem = 1GB
+      checkpoint_completion_target = 0.9
+      wal_buffers = 16MB
+      default_statistics_target = 100
+      random_page_cost = 1.1
+      effective_io_concurrency = 200
+      work_mem = 4MB
+      min_wal_size = 1GB
+      max_wal_size = 4GB
+      max_worker_processes = 8
+      max_parallel_workers_per_gather = 4
+      max_parallel_workers = 8
+      max_parallel_maintenance_workers = 4
+  - path: /etc/postgresql/14/main/pg_hba.conf
+    content: |
+      local   all             postgres                                peer
+      local   all             all                                     peer
+      host    all             all             127.0.0.1/32            md5
+      host    all             all             ::1/128                 md5
+      host    all             all             10.0.0.0/8              md5
+      host    all             all             172.16.0.0/12           md5
+
+runcmd:
+  - systemctl enable postgresql
+  - systemctl start postgresql
+  - sudo -u postgres psql -c "CREATE USER nepenmultilink WITH PASSWORD '${admin_password}';"
+  - sudo -u postgres psql -c "CREATE DATABASE nepenmultilink OWNER nepenmultilink;"
+  - sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE nepenmultilink TO nepenmultilink;"
+  - sudo -u postgres psql -d nepenmultilink -c "CREATE EXTENSION IF NOT EXISTS timescaledb;"
+  - sudo -u postgres psql -d nepenmultilink -c "CREATE EXTENSION IF NOT EXISTS pg_stat_statements;"
+  - sudo -u postgres psql -d nepenmultilink -c "CREATE EXTENSION IF NOT EXISTS pgaudit;"
+  - echo "PostgreSQL with TimescaleDB setup completed"

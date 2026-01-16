@@ -1,0 +1,35 @@
+#cloud-config
+package_update: true
+package_upgrade: true
+
+packages:
+  - mongodb
+
+write_files:
+  - path: /etc/mongodb.conf
+    content: |
+      storage:
+        dbPath: /var/lib/mongodb
+        journal:
+          enabled: true
+        wiredTiger:
+          engineConfig:
+            cacheSizeGB: 8
+      systemLog:
+        destination: file
+        logAppend: true
+        path: /var/log/mongodb/mongod.log
+      net:
+        port: 27017
+        bindIp: 0.0.0.0
+      security:
+        authorization: enabled
+      processManagement:
+        timeZoneInfo: /usr/share/zoneinfo
+
+runcmd:
+  - systemctl enable mongod
+  - systemctl start mongod
+  - sleep 10
+  - mongo admin --eval "db.createUser({user: 'nepenmultilink', pwd: '${admin_password}', roles: ['readWriteAnyDatabase', 'dbAdminAnyDatabase', 'clusterAdmin']})"
+  - echo "MongoDB setup completed"

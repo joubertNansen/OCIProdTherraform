@@ -7,7 +7,7 @@
 data "oci_core_services" "all_services" {}
 
 resource "oci_core_virtual_network" "vcn_shared" {
-  compartment_id = oci_identity_compartment.root_level["prod"].id
+  compartment_id = oci_identity_compartment.child_level["shared-network-prod"].id
   display_name   = "SHARED-VCN-PROD"
   cidr_block     = var.vcn_cidr
 
@@ -17,20 +17,20 @@ resource "oci_core_virtual_network" "vcn_shared" {
 }
 
 resource "oci_core_internet_gateway" "igw" {
-  compartment_id = oci_identity_compartment.root_level["prod"].id
+  compartment_id = oci_identity_compartment.child_level["shared-network-prod"].id
   vcn_id         = oci_core_virtual_network.vcn_shared.id
   display_name   = "IGW-SHARED-PROD"
   enabled        = true
 }
 
 resource "oci_core_nat_gateway" "nat" {
-  compartment_id = oci_identity_compartment.root_level["prod"].id
+  compartment_id = oci_identity_compartment.child_level["shared-network-prod"].id
   vcn_id         = oci_core_virtual_network.vcn_shared.id
   display_name   = "NAT-SHARED-PROD"
 }
 
 resource "oci_core_service_gateway" "sgw" {
-  compartment_id = oci_identity_compartment.root_level["prod"].id
+  compartment_id = oci_identity_compartment.child_level["shared-network-prod"].id
   vcn_id         = oci_core_virtual_network.vcn_shared.id
   display_name   = "SGW-SHARED-PROD"
   services {
@@ -39,7 +39,7 @@ resource "oci_core_service_gateway" "sgw" {
 }
 
 resource "oci_core_route_table" "rt_public" {
-  compartment_id = oci_identity_compartment.root_level["prod"].id
+  compartment_id = oci_identity_compartment.child_level["shared-network-prod"].id
   vcn_id         = oci_core_virtual_network.vcn_shared.id
   display_name   = "RT-PUBLIC-SHARED-PROD"
 
@@ -51,7 +51,7 @@ resource "oci_core_route_table" "rt_public" {
 }
 
 resource "oci_core_route_table" "rt_private" {
-  compartment_id = oci_identity_compartment.root_level["prod"].id
+  compartment_id = oci_identity_compartment.child_level["shared-network-prod"].id
   vcn_id         = oci_core_virtual_network.vcn_shared.id
   display_name   = "RT-PRIVATE-SHARED-PROD"
 
@@ -75,7 +75,7 @@ resource "oci_core_route_table" "rt_private" {
 }
 
 resource "oci_core_subnet" "public_shared" {
-  compartment_id               = oci_identity_compartment.root_level["prod"].id
+  compartment_id               = oci_identity_compartment.child_level["shared-network-prod"].id
   vcn_id                       = oci_core_virtual_network.vcn_shared.id
   display_name                 = "subnet-pub-shared"
   cidr_block                   = var.subnet_cidrs["public"]
@@ -88,7 +88,7 @@ resource "oci_core_subnet" "public_shared" {
 }
 
 resource "oci_core_subnet" "private_shared" {
-  compartment_id               = oci_identity_compartment.root_level["prod"].id
+  compartment_id               = oci_identity_compartment.child_level["shared-network-prod"].id
   vcn_id                       = oci_core_virtual_network.vcn_shared.id
   display_name                 = "subnet-priv-shared"
   cidr_block                   = var.subnet_cidrs["private"]
