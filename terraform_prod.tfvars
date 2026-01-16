@@ -22,13 +22,22 @@ private_key_path = "/Users/joubertgabriel/.oci/nova_api_key.pem"  # Usando a mes
 # Compartimentos são divisões lógicas dentro da conta OCI
 # Servem para organizar recursos, isolar acesso e controlar custos
 compartments = {
-  # ATENÇÃO: Para o primeiro apply, deixe apenas o compartimento raiz "prod" abaixo.
-  # Após rodar o terraform apply, copie o OCID real do compartimento "prod" criado
-  # e atualize o campo parent_ocid dos filhos (shared-network-prod, projeto-a-prod).
-  # Depois, reintroduza os filhos e rode o apply novamente.
+  # Após o primeiro apply, substitua o bloco abaixo pelo OCID real do compartimento "prod" criado.
+  # Exemplo:
+  # Compartimento raiz para ambiente produção
   "prod" = {
     description = "Compartimento de produção"
     parent_ocid = "ocid1.tenancy.oc1..aaaaaaaaehlqeml7m3rbt7f66fknd6z4dqyijnrslo7j7luvaacdf22vf7rq"  # Pai é a tenancy
+  },
+  # Compartimento compartilhado de rede (recursos compartilhados entre projetos)
+  "shared-network-prod" = {
+    description = "Rede compartilhada produção"
+    parent_ocid = "<OCID_REAL_DO_COMPARTIMENTO_PROD_AQUI>"  # Atualize com o OCID real do "prod"
+  },
+  # Compartimento específico do Projeto A
+  "projeto-a-prod" = {
+    description = "Projeto A produção"
+    parent_ocid = "<OCID_REAL_DO_COMPARTIMENTO_PROD_AQUI>"  # Atualize com o OCID real do "prod"
   }
 }
 
